@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#4F46E5" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="15" fill="url(#g6)" />
+  <g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(155, 75)">
+    <!-- Chemistry Flask Icon -->
+    <path d="M 35 15 L 35 30 L 15 70 C 10 80, 20 85, 45 85 C 70 85, 80 80, 75 70 L 55 30 L 55 15 Z" />
+    <path d="M 30 15 L 60 15" stroke-width="5" />
+    <path d="M 22 55 L 68 55" stroke-dasharray="2 4" />
+    <!-- Bubble -->
+    <circle cx="45" cy="40" r="3" fill="#FFFFFF" />
+    <circle cx="35" cy="50" r="2.5" fill="#FFFFFF" />
+  </g>
+  <text x="50%" y="240" font-family="'Poppins', sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" text-anchor="middle">INSUMOS</text>
+  <text x="50%" y="270" font-family="'Poppins', sans-serif" font-size="15" fill="#E0E7FF" text-anchor="middle" opacity="0.8">Ingredientes Especiales</text>
+</svg>

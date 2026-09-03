@@ -1,0 +1,319 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+    --dark-bg: #0f172a; /* Slate 900 - Deep Navy/Corporate Dark */
+    --dark-surface: #1e293b; /* Slate 800 */
+    --dark-border: rgba(255, 255, 255, 0.08);
+    
+    --neon-orange: #f97316;
+    --neon-orange-glow: rgba(249, 115, 22, 0.4);
+    --neon-cyan: #38bdf8;
+    --neon-cyan-glow: rgba(56, 189, 248, 0.3);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    
+    --gradient-glow: linear-gradient(135deg, var(--neon-orange), #fb923c);
+}
+
+/* ==========================================
+   GLOBAL OVERRIDES (NAVY PREMIUM)
+   ========================================== */
+body {
+    background-color: var(--dark-bg) !important;
+    color: var(--text-primary) !important;
+    font-family: 'Inter', sans-serif !important;
+    overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif !important;
+    color: var(--text-primary) !important;
+}
+
+p {
+    color: var(--text-secondary) !important;
+}
+
+section {
+    background-color: transparent !important;
+}
+
+.section-title h2 {
+    color: var(--text-primary) !important;
+}
+
+.section-title span {
+    color: var(--neon-orange) !important;
+    background: rgba(249, 115, 22, 0.1) !important;
+    border: 1px solid rgba(249, 115, 22, 0.3) !important;
+}
+
+/* ==========================================
+   BUTTONS (MAGNETIC GLOW)
+   ========================================== */
+.btn-primary {
+    background: var(--gradient-glow) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 5px 15px var(--neon-orange-glow) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1;
+    transform: scale(0.5);
+}
+
+.btn-primary:hover::after {
+    opacity: 0.2;
+    transform: scale(1);
+}
+
+.btn-primary:hover {
+    box-shadow: 0 10px 25px var(--neon-orange-glow) !important;
+    transform: translateY(-2px) scale(1.02) !important;
+}
+
+/* ==========================================
+   HERO SECTION (NAVY NEON)
+   ========================================== */
+.hero {
+    min-height: 100vh !important;
+    background: var(--dark-bg) !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.1) 0%, transparent 50%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 5rem !important;
+    font-weight: 900 !important;
+    letter-spacing: -2px;
+    background: linear-gradient(to right, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    margin-bottom: 20px;
+}
+
+.hero-blob {
+    position: absolute;
+    filter: blur(100px);
+    border-radius: 50%;
+    z-index: 0;
+    animation: float-slow 15s infinite ease-in-out alternate;
+}
+
+.blob-orange {
+    background: var(--neon-orange);
+    width: 60vw; height: 60vw;
+    max-width: 600px; max-height: 600px;
+    top: -10%; left: -20%;
+    opacity: 0.2;
+}
+
+.blob-cyan {
+    background: var(--neon-cyan);
+    width: 50vw; height: 50vw;
+    max-width: 500px; max-height: 500px;
+    bottom: -10%; right: -10%;
+    opacity: 0.15;
+    animation-delay: -5s;
+}
+
+@keyframes float-slow {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 50px) scale(1.1); }
+}
+
+/* Remove old slider */
+.hero-slider, .slide, .hero-overlay, .slider-dots {
+    display: none !important;
+}
+
+/* ==========================================
+   BENTO GRID (BENEFITS)
+   ========================================== */
+.benefits {
+    padding: 120px 0 !important;
+    background: var(--dark-bg) !important;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) !important;
+    grid-auto-rows: minmax(250px, auto);
+    gap: 20px !important;
+}
+
+/* Bento styles */
+.benefits-grid .benefit-card:nth-child(1) { grid-column: span 2; }
+.benefits-grid .benefit-card:nth-child(4) { grid-column: span 2; }
+
+@media (max-width: 768px) {
+    .benefits-grid .benefit-card:nth-child(1),
+    .benefits-grid .benefit-card:nth-child(4) { grid-column: span 1; }
+    .benefits-grid { grid-template-columns: 1fr !important; }
+}
+
+.benefit-card {
+    background: var(--dark-surface) !important;
+    border: 1px solid var(--dark-border) !important;
+    border-radius: 24px !important;
+    padding: 40px !important;
+    text-align: left !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    border-color: rgba(249, 115, 22, 0.3) !important;
+    box-shadow: 0 15px 35px rgba(249, 115, 22, 0.1) !important;
+    background: #27374d !important;
+}
+
+.benefit-card i {
+    font-size: 2.5rem !important;
+    color: var(--neon-orange) !important;
+    margin-bottom: 20px !important;
+}
+
+.benefit-card h3 {
+    font-size: 1.6rem !important;
+    margin-bottom: 10px !important;
+}
+
+/* ==========================================
+   PRODUCTS (3D CARDS)
+   ========================================== */
+.products {
+    background: var(--dark-bg) !important;
+    padding: 120px 0 !important;
+}
+
+.category-card {
+    background: var(--dark-surface) !important;
+    border: 1px solid var(--dark-border) !important;
+    border-radius: 24px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s ease !important;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3) !important;
+}
+
+.category-card:hover {
+    transform: translateY(-15px) perspective(1000px) rotateX(5deg) rotateY(-5deg) !important;
+    box-shadow: -20px 20px 40px rgba(0,0,0,0.4), 0 0 30px rgba(56, 189, 248, 0.1) !important;
+    border-color: rgba(56, 189, 248, 0.3) !important;
+}
+
+.category-photo {
+    height: 250px !important;
+    background: #000 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    overflow: hidden;
+}
+
+.category-photo img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.85;
+    transition: transform 0.8s ease, opacity 0.4s ease !important;
+}
+
+.category-card:hover .category-photo img {
+    transform: scale(1.15) !important;
+    opacity: 1;
+}
+
+.category-content {
+    padding: 30px !important;
+    text-align: left !important;
+}
+
+.category-card h3 {
+    color: var(--text-primary) !important;
+    font-size: 1.5rem !important;
+}
+
+/* ==========================================
+   ABOUT & TABS
+   ========================================== */
+.about, .mission-vision {
+    background: var(--dark-bg) !important;
+}
+
+.mv-tabs-container {
+    background: var(--dark-surface) !important;
+    border: 1px solid var(--dark-border) !important;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2) !important;
+    border-radius: 24px !important;
+}
+
+.mv-tabs-header {
+    background: rgba(0,0,0,0.2) !important;
+    border-bottom: 1px solid var(--dark-border) !important;
+}
+
+.mv-tab-btn {
+    color: var(--text-secondary) !important;
+}
+
+.mv-tab-btn.active {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-primary) !important;
+    border-bottom: 3px solid var(--neon-orange) !important;
+    box-shadow: inset 0 -15px 20px -20px var(--neon-orange) !important;
+}
+
+/* HEADER GLASSMORPHISM */
+.header {
+    background: transparent !important;
+    border-bottom: none !important;
+}
+.header.scrolled {
+    background: rgba(15, 23, 42, 0.9) !important;
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid var(--dark-border);
+}
+.nav-menu a {
+    color: var(--text-primary) !important;
+}
+.nav-menu a:hover {
+    color: var(--neon-orange) !important;
+}
+.logo h1 {
+    color: var(--text-primary) !important;
+}

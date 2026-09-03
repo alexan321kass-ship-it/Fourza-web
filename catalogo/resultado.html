@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estado de Transacción | FOURZA</title>
+    
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        .result-container {
+            max-width: 700px;
+            margin: 120px auto 80px auto;
+            padding: 0 20px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .result-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            text-align: center;
+            border: 1px solid #f1f5f9;
+        }
+
+        .status-icon {
+            font-size: 4.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .status-icon.approved { color: #10B981; }
+        .status-icon.declined { color: #EF4444; }
+        .status-icon.pending { color: #F59E0B; }
+        .status-icon.error { color: #6B7280; }
+
+        .result-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 10px;
+        }
+
+        .result-msg {
+            color: #64748B;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .details-section {
+            text-align: left;
+            border-top: 1px dashed #e2e8f0;
+            padding-top: 25px;
+            margin-bottom: 30px;
+        }
+
+        .details-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .info-item {
+            font-size: 0.9rem;
+        }
+
+        .info-item strong {
+            color: #475569;
+            display: block;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-item span {
+            color: #0F172A;
+            font-weight: 500;
+        }
+
+        .products-table-wrapper {
+            margin-top: 20px;
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .products-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .products-table th, .products-table td {
+            padding: 12px 16px;
+            text-align: left;
+        }
+
+        .products-table th {
+            background: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .products-table td {
+            border-top: 1px solid #f1f5f9;
+            color: #0F172A;
+        }
+
+        .products-table td.text-right, .products-table th.text-right {
+            text-align: right;
+        }
+
+        .total-row-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0F172A;
+            padding: 16px;
+            background: #f8fafc;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .total-row-display .total-value {
+            color: #F97316;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+
+        .btn-res {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary-res {
+            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+            color: #ffffff;
+        }
+
+        .btn-primary-res:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .btn-wa-res {
+            background: #25D366;
+            color: #ffffff;
+        }
+
+        .btn-wa-res:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15);
+        }
+
+        /* Loading Spinner */
+        .loading-wrapper {
+            padding: 60px 0;
+        }
+
+        .spinner-res {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #F97316;
+            border-radius: 50%;
+            animation: spin-res 1s linear infinite;
+            margin: 0 auto 20px auto;
+        }
+
+        @keyframes spin-res {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="header scrolled header-static">
+        <div class="container navbar">
+            <a href="../index.html" class="logo" aria-label="FOURZA SAS - Inicio">
+                <img src="../img/logos/Logofourza.png" alt="FOURZA SAS - Comercializadora" class="logo-img">
+            </a>
+            <nav class="nav-menu">
+                <a href="../index.html#inicio">Inicio</a>
+                <a href="../index.html#nosotros">Nosotros</a>
+                <a href="index.html" style="color: var(--secondary); font-weight: 700;">Catálogo</a>
+                <a href="../index.html#beneficios">Beneficios</a>
+                <a href="../index.html#contacto">Contacto</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ================= RESULT CARD ================= -->
+    <main class="result-container">
+        
+        <div class="result-card" id="result-card-content">
+            
+            <!-- Loading view by default -->
+            <div class="loading-wrapper" id="loading-view">
+                <div class="spinner-res"></div>
+                <h2 class="result-title">Cargando Pedido...</h2>
+                <p class="result-msg">Estamos consultando el resumen de tu pedido.</p>
+            </div>
+
+            <!-- Content view (will be generated by JS) -->
+            <div id="status-view" style="display: none;">
+                <!-- Icon and Title -->
+                <div id="status-header"></div>
+                
+                <!-- Main Message -->
+                <p class="result-msg" id="status-message"></p>
+
+                <!-- Order Details -->
+                <div class="details-section">
+                    <h3 class="details-title"><i class="fas fa-file-invoice"></i> Resumen de tu Pedido</h3>
+                    
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Referencia del Pedido</strong>
+                            <span id="info-referencia">-</span>
+                        </div>
+                        <div class="info-item" id="item-payment-ref">
+                            <strong>Referencia de Pago</strong>
+                            <span id="info-payment-ref">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Método de Pago</strong>
+                            <span id="info-metodo">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Fecha y Hora</strong>
+                            <span id="info-fecha">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Cliente</strong>
+                            <span id="info-cliente">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Dirección de Envío</strong>
+                            <span id="info-direccion">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Products Table -->
+                    <div class="products-table-wrapper">
+                        <table class="products-table">
+                            <thead>
+                                <tr>
+                                    <th>Producto</th>
+                                    <th class="text-right">Cant.</th>
+                                    <th class="text-right">Unitario</th>
+                                    <th class="text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-list-rows">
+                                <!-- JS insert rows here -->
+                            </tbody>
+                        </table>
+                        <div class="total-row-display">
+                            <span>Total Pedido</span>
+                            <span class="total-value" id="info-total">$0 COP</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div class="btn-group">
+                    <a href="index.html" class="btn-res btn-primary-res">
+                        <i class="fas fa-arrow-left"></i> Volver al Catálogo
+                    </a>
+                    <a id="btn-whatsapp-support" href="#" target="_blank" class="btn-res btn-wa-res">
+                        <i class="fab fa-whatsapp"></i> ¿Necesitas ayuda?
+                    </a>
+                </div>
+            </div>
+
+            <!-- Error view -->
+            <div id="error-view" style="display: none;">
+                <span class="status-icon error"><i class="fas fa-circle-exclamation"></i></span>
+                <h2 class="result-title">Error al consultar el pedido</h2>
+                <p class="result-msg" id="error-msg-text">No pudimos cargar los detalles de este pedido o la referencia es inválida.</p>
+                <div class="btn-group">
+                    <a href="index.html" class="btn-res btn-primary-res">
+                        <i class="fas fa-arrow-left"></i> Volver al Catálogo
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0; margin-top: 0; text-align: center;">
+                © 2026 FOURZA | Todos los derechos reservados
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Logic to query the order status -->
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const transactionId = urlParams.get('id'); // Compatibilidad con enlaces anteriores
+            const referenceId = urlParams.get('ref'); // Opcional: referencia directa
+
+            const loadingView = document.getElementById('loading-view');
+            const statusView = document.getElementById('status-view');
+            const errorView = document.getElementById('error-view');
+
+            if (!transactionId && !referenceId) {
+                showError('No se proporcionó ningún identificador de transacción o referencia.');
+                return;
+            }
+
+            try {
+                let orderData = null;
+
+                if (transactionId) {
+                    // Compatibilidad con pedidos anteriores creados con pasarela
+                    const res = await fetch(`/api/pedido/sync/${transactionId}`);
+                    if (res.ok) {
+                        orderData = await res.json();
+                    } else {
+                        throw new Error('No se pudo verificar la transacción.');
+                    }
+                } else if (referenceId) {
+                    // Consultar pedido directamente por referencia local
+                    const res = await fetch(`/api/pedido/${referenceId}`);
+                    if (res.ok) {
+                        orderData = await res.json();
+                    } else {
+                        throw new Error('Pedido no encontrado en nuestro sistema.');
+                    }
+                }
+
+                if (orderData) {
+                    displayOrderResult(orderData);
+                    // Mostrar modal de reseña solo en compras exitosas/pendientes
+                    if (orderData.estado === 'aprobado' || orderData.estado === 'pendiente') {
+                        setTimeout(() => {
+                            abrirModalResena(orderData.referencia, orderData.nombre);
+                        }, 2500);
+                    }
+                } else {
+                    showError('No se pudieron obtener los detalles del pedido.');
+                }
+
+            } catch (err) {
+                console.error(err);
+                showError(err.message);
+            }
+
+            function showError(msg) {
+                loadingView.style.display = 'none';
+                errorView.style.display = 'block';
+                document.getElementById('error-msg-text').textContent = msg;
+            }
+
+            function displayOrderResult(order) {
+                loadingView.style.display = 'none';
+                statusView.style.display = 'block';
+
+                const headerDiv = document.getElementById('status-header');
+                const messageP = document.getElementById('status-message');
+
+                // Render based on state
+                // aprobado, rechazado, pendiente, error, anulado
+                let iconHtml = '';
+                let titleText = '';
+                let messageText = '';
+
+                switch (order.estado) {
+                    case 'aprobado':
+                        iconHtml = '<span class="status-icon approved"><i class="fas fa-circle-check"></i></span>';
+                        titleText = 'Pago Confirmado';
+                        messageText = `Muchas gracias, ${order.nombre}. Tu pago de <strong>$${order.monto.toLocaleString('es-CO')} COP</strong> fue confirmado. Tu pedido ya esta siendo preparado para entrega.`;
+                        break;
+                    case 'rechazado':
+                        iconHtml = '<span class="status-icon declined"><i class="fas fa-circle-xmark"></i></span>';
+                        titleText = 'Pago Rechazado ❌';
+                        messageText = `Lo sentimos. La transacción ha sido rechazada o cancelada por la entidad financiera. Por favor verifica los datos e intenta pagar nuevamente desde el catálogo.`;
+                        break;
+                    case 'pendiente':
+                        iconHtml = '<span class="status-icon pending"><i class="fas fa-clock"></i></span>';
+                        titleText = '¡Pedido Registrado con Éxito!';
+                        messageText = `Hola ${order.nombre}, tu pedido por <strong>$${order.monto.toLocaleString('es-CO')} COP</strong> está casi listo. Hemos enviado el resumen a tu correo electrónico.<br><br><strong>Último paso:</strong> Realiza la transferencia usando <strong>${formatPaymentMethod(order.metodo_pago)}</strong> y <strong>envíanos tu comprobante al WhatsApp</strong>. Una vez lo verifiquemos, tu pedido será despachado.`;
+                        break;
+                    case 'anulado':
+                        iconHtml = '<span class="status-icon error"><i class="fas fa-ban"></i></span>';
+                        titleText = 'Transacción Anulada';
+                        messageText = `La transacción fue anulada antes de finalizar. Si crees que se trata de un error, por favor comunícate con soporte.`;
+                        break;
+                    default: // error, etc.
+                        iconHtml = '<span class="status-icon error"><i class="fas fa-circle-exclamation"></i></span>';
+                        titleText = 'Error en el Pago';
+                        messageText = `Ha ocurrido un error al procesar el pago. Te recomendamos verificar si el cobro se realizó y consultar con un asesor de ventas de FOURZA.`;
+                        break;
+                }
+
+                headerDiv.innerHTML = iconHtml + `<h2 class="result-title">${titleText}</h2>`;
+                messageP.innerHTML = messageText;
+
+                // Fill details fields
+                document.getElementById('info-referencia').textContent = order.referencia;
+                
+                document.getElementById('info-payment-ref').textContent = order.referencia;
+
+                document.getElementById('info-metodo').textContent = formatPaymentMethod(order.metodo_pago);
+                
+                const fecha = new Date(order.fecha);
+                document.getElementById('info-fecha').textContent = fecha.toLocaleString('es-CO');
+                document.getElementById('info-cliente').textContent = `${order.nombre} (${order.telefono || 'Sin teléfono'})`;
+                document.getElementById('info-direccion').textContent = order.direccion;
+                document.getElementById('info-total').textContent = `$${order.monto.toLocaleString('es-CO')} COP`;
+
+                // Render products
+                const tbody = document.getElementById('products-list-rows');
+                tbody.innerHTML = '';
+                
+                try {
+                    const items = JSON.parse(order.productos);
+                    items.forEach(item => {
+                        const tr = document.createElement('tr');
+                        
+                        const priceNum = typeof item.precio === 'string' 
+                            ? parseFloat(item.precio.replace(/[^0-9]/g, '')) 
+                            : parseFloat(item.precio) || 0;
+                        const subTotal = priceNum * (item.cantidad || 1);
+
+                        tr.innerHTML = `
+                            <td><strong>${item.titulo}</strong></td>
+                            <td class="text-right">${item.cantidad || 1}</td>
+                            <td class="text-right">$${priceNum.toLocaleString('es-CO')} COP</td>
+                            <td class="text-right"><strong>$${subTotal.toLocaleString('es-CO')} COP</strong></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                } catch (e) {
+                    console.error('Error parseando productos:', e);
+                    tbody.innerHTML = '<tr><td colspan="4">Error al cargar productos</td></tr>';
+                }
+
+                // WhatsApp Support button setup
+                let waText = encodeURIComponent(`Hola FOURZA, tengo una consulta sobre mi pedido con Referencia: ${order.referencia}`);
+                let waBtnLabel = '<i class="fab fa-whatsapp"></i> ¿Necesitas ayuda?';
+
+                if (order.estado === 'pendiente') {
+                    waText = encodeURIComponent(`Hola FOURZA, acabo de hacer el pedido ${order.referencia} por un valor de $${order.monto.toLocaleString('es-CO')} COP. Aquí envío el comprobante de pago:`);
+                    waBtnLabel = '<i class="fab fa-whatsapp"></i> Enviar Comprobante de Pago';
+                }
+
+                const waBtn = document.getElementById('btn-whatsapp-support');
+                waBtn.href = `https://wa.me/573228194061?text=${waText}`;
+                waBtn.innerHTML = waBtnLabel;
+            }
+
+            function formatPaymentMethod(method) {
+                const labels = {
+                    nequi: 'Nequi',
+                    daviplata: 'Daviplata',
+                    bancolombia: 'Bancolombia'
+                };
+                return labels[String(method || '').toLowerCase()] || 'Pago manual';
+            }
+        });
+
+        // ================= SISTEMA DE RESEÑAS =================
+        let referenciaActual = '';
+        let nombreClienteActual = '';
+        let calificacionSeleccionada = 0;
+
+        function abrirModalResena(referencia, nombre) {
+            referenciaActual = referencia;
+            nombreClienteActual = nombre;
+            document.getElementById('rating-modal').classList.add('show');
+        }
+
+        function cerrarModalResena() {
+            document.getElementById('rating-modal').classList.remove('show');
+        }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const stars = document.querySelectorAll('.star-btn');
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                calificacionSeleccionada = parseInt(e.currentTarget.dataset.value);
+                stars.forEach(s => {
+                    const val = parseInt(s.dataset.value);
+                    if (val <= calificacionSeleccionada) {
+                        s.classList.add('selected');
+                        s.innerHTML = '<i class="fas fa-star"></i>';
+                    } else {
+                        s.classList.remove('selected');
+                        s.innerHTML = '<i class="far fa-star"></i>';
+                    }
+                });
+            });
+        });
+
+        document.getElementById('rating-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (calificacionSeleccionada === 0) {
+                alert('Por favor selecciona una calificación en estrellas.');
+                return;
+            }
+            const comentario = document.getElementById('rating-comment').value;
+            const btn = document.getElementById('rating-submit-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/api/resenas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        referencia_pedido: referenciaActual,
+                        nombre_cliente: nombreClienteActual,
+                        calificacion: calificacionSeleccionada,
+                        comentario: comentario
+                    })
+                });
+                if (res.ok) {
+                    cerrarModalResena();
+                    const thanksDiv = document.createElement('div');
+                    thanksDiv.style.position = 'fixed';
+                    thanksDiv.style.top = '20px';
+                    thanksDiv.style.right = '20px';
+                    thanksDiv.style.background = '#10B981';
+                    thanksDiv.style.color = '#fff';
+                    thanksDiv.style.padding = '15px 25px';
+                    thanksDiv.style.borderRadius = '8px';
+                    thanksDiv.style.zIndex = '99999';
+                    thanksDiv.innerHTML = '<i class="fas fa-check-circle"></i> ¡Gracias por tu calificación!';
+                    document.body.appendChild(thanksDiv);
+                    setTimeout(() => thanksDiv.remove(), 4000);
+                } else {
+                    alert('Hubo un error al enviar tu calificación.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Error de conexión al enviar calificación.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    });
+    </script>
+
+    <!-- MODAL DE RESEÑA -->
+    <style>
+        .rating-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s ease;
+            backdrop-filter: blur(4px);
+        }
+        .rating-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .rating-modal-content {
+            background: white;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            transform: translateY(20px);
+            transition: 0.3s ease;
+        }
+        .rating-modal-overlay.show .rating-modal-content {
+            transform: translateY(0);
+        }
+        .rating-modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: none; border: none;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-direction: row-reverse; /* Para hover trick */
+        }
+        .star-btn {
+            background: none; border: none;
+            font-size: 2.5rem;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .star-btn:hover, .star-btn:hover ~ .star-btn {
+            color: #fbbf24;
+        }
+        .star-btn.selected {
+            color: #f59e0b;
+        }
+        .rating-textarea {
+            width: 100%;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: inherit;
+            margin-bottom: 20px;
+            resize: none;
+            outline: none;
+        }
+        .rating-textarea:focus {
+            border-color: #F97316;
+        }
+        .rating-submit {
+            background: #F97316;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+        }
+        .rating-submit:hover {
+            background: #ea580c;
+        }
+    </style>
+    <div class="rating-modal-overlay" id="rating-modal">
+        <div class="rating-modal-content">
+            <button class="rating-modal-close" onclick="cerrarModalResena()">&times;</button>
+            <h3 style="margin-bottom: 10px; color: #0F172A;">¿Qué tal tu experiencia?</h3>
+            <p style="color: #64748b; font-size: 0.9rem;">Califica nuestro servicio y ayúdanos a mejorar.</p>
+            <form id="rating-form">
+                <div class="rating-stars">
+                    <!-- Reverse order for CSS hover trick, JS will handle values -->
+                    <button type="button" class="star-btn" data-value="5"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-value="4"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-value="3"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-value="2"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-value="1"><i class="far fa-star"></i></button>
+                </div>
+                <textarea id="rating-comment" class="rating-textarea" rows="3" placeholder="Comentarios adicionales (Opcional)"></textarea>
+                <button type="submit" class="rating-submit" id="rating-submit-btn">Enviar Calificación</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

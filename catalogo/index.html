@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Productos | FOURZA</title>
+
+    <meta name="description"
+        content="Explora nuestro catálogo de productos en alimentos, embalaje e insumos industriales de alta calidad en FOURZA.">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Catálogo de Productos | FOURZA">
+    <meta property="og:description"
+        content="Explora nuestro catálogo de productos en alimentos, embalaje e insumos industriales de alta calidad en FOURZA.">
+    <meta property="og:image" content="https://tu-sitio.com/img/hero1.jpg">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cart.css">
+    <style>
+        /* Payment options: a compact, accessible card treatment scoped to checkout. */
+        #checkout-form .payment-methods {
+            gap: 9px;
+            margin: 18px 0 16px;
+        }
+
+        #checkout-form .payment-methods-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 2px;
+            color: var(--primary);
+            font-size: .88rem;
+            letter-spacing: .01em;
+        }
+
+        #checkout-form .payment-methods-title::before {
+            content: "";
+            width: 4px;
+            height: 18px;
+            border-radius: 3px;
+            background: var(--secondary);
+        }
+
+        #checkout-form .payment-option {
+            --payment-accent: var(--secondary);
+            position: relative;
+            display: grid;
+            grid-template-columns: 42px minmax(0, 1fr) 24px;
+            align-items: center;
+            gap: 12px;
+            min-height: 68px;
+            padding: 11px 13px;
+            overflow: hidden;
+            border: 1px solid #dbe4ee;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(15, 23, 42, .035);
+            transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background-color .2s ease;
+        }
+
+        #checkout-form .payment-option::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto 0 0;
+            width: 4px;
+            background: var(--payment-accent);
+            opacity: .35;
+            transition: opacity .2s ease;
+        }
+
+        #checkout-form .payment-option:hover {
+            transform: translateY(-2px);
+            border-color: color-mix(in srgb, var(--payment-accent) 48%, #dbe4ee);
+            box-shadow: 0 9px 20px rgba(15, 23, 42, .09);
+        }
+
+        #checkout-form .payment-option:has(input:checked) {
+            border-color: var(--payment-accent);
+            background: color-mix(in srgb, var(--payment-accent) 7%, #fff);
+            box-shadow: 0 8px 20px color-mix(in srgb, var(--payment-accent) 18%, transparent);
+        }
+
+        #checkout-form .payment-option:has(input:checked)::before {
+            opacity: 1;
+        }
+
+        #checkout-form .payment-option:has(input:focus-visible) {
+            outline: 3px solid color-mix(in srgb, var(--payment-accent) 35%, transparent);
+            outline-offset: 2px;
+        }
+
+        #checkout-form .payment-option input {
+            position: absolute;
+            inline-size: 1px;
+            block-size: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            clip-path: inset(50%);
+        }
+
+        #checkout-form .payment-brand {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: color-mix(in srgb, var(--payment-accent) 12%, #fff);
+        }
+
+        #checkout-form .payment-brand img {
+            display: block;
+            width: 27px;
+            height: 27px;
+            object-fit: contain;
+        }
+
+        #checkout-form .payment-label {
+            display: grid;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        #checkout-form .payment-label strong {
+            color: var(--primary);
+            font-size: .94rem;
+            line-height: 1.2;
+        }
+
+        #checkout-form .payment-label small {
+            color: #64748b;
+            font-size: .74rem;
+            line-height: 1.25;
+        }
+
+        #checkout-form .payment-status {
+            display: grid;
+            place-items: center;
+            width: 22px;
+            height: 22px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 50%;
+            color: transparent;
+            font-size: .68rem;
+            transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease;
+        }
+
+        #checkout-form .payment-option:has(input:checked) .payment-status {
+            border-color: var(--payment-accent);
+            background: var(--payment-accent);
+            color: #fff;
+            transform: scale(1.05);
+        }
+
+        #checkout-form .payment-option--nequi { --payment-accent: #7c3aed; }
+        #checkout-form .payment-option--daviplata { --payment-accent: #e11d48; }
+        #checkout-form .payment-option--bancolombia { --payment-accent: #eab308; }
+
+        @media (max-width: 420px) {
+            #checkout-form .payment-option {
+                grid-template-columns: 38px minmax(0, 1fr) 22px;
+                gap: 10px;
+                min-height: 64px;
+                padding: 10px 11px;
+            }
+
+            #checkout-form .payment-brand {
+                width: 38px;
+                height: 38px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= PRELOADER ================= -->
+    <div class="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- ================= HEADER ================= -->
+    <header class="header scrolled header-static">
+
+        <div class="container navbar">
+
+            <a href="../index.html" class="logo" aria-label="FOURZA SAS - Inicio">
+                <img src="../img/logos/Logofourza.png" alt="FOURZA SAS - Comercializadora" class="logo-img">
+            </a>
+
+            <nav class="nav-menu">
+                <a href="../index.html#inicio">Inicio</a>
+                <a href="../index.html#nosotros">Nosotros</a>
+                <a href="#" style="color: var(--secondary); font-weight: 700;">Catálogo</a>
+                <a href="../index.html#beneficios">Beneficios</a>
+                <a href="../index.html#marcas">Marcas</a>
+                <a href="../index.html#contacto">Contacto</a>
+            </nav>
+
+            <div class="navbar-right">
+
+                <!-- Cart Button -->
+                <button id="cart-toggle-btn" class="cart-toggle-btn" aria-label="Abrir carrito">
+                    <i class="fas fa-bag-shopping"></i>
+                    <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
+                </button>
+
+                <div class="menu-toggle" aria-label="Abrir menú" role="button" tabindex="0">
+                    <i class="fas fa-bars"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+    <!-- ================= CART OVERLAY ================= -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <!-- ================= CART DRAWER ================= -->
+    <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-label="Carrito de cotización">
+
+        <div class="cart-drawer-header">
+            <div>
+                <h2 class="cart-drawer-title">
+                    <i class="fas fa-bag-shopping"></i> Mi Carrito
+                </h2>
+                <span id="cart-count-label" class="cart-count-label">0 productos</span>
+            </div>
+            <button id="cart-close-btn" class="cart-close-btn" aria-label="Cerrar carrito">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="cart-empty" class="cart-empty">
+            <i class="fas fa-bag-shopping"></i>
+            <p>Tu carrito está vacío</p>
+            <span>Agrega productos desde el catálogo</span>
+        </div>
+
+        <!-- Items List -->
+        <div id="cart-items-list" class="cart-items-list"></div>
+
+        <!-- Footer Actions -->
+        <div id="cart-footer" class="cart-footer" style="display:none;">
+
+            <button id="cart-clear-btn" class="cart-clear-btn">
+                <i class="fas fa-trash"></i> Vaciar carrito
+            </button>
+
+            <div class="cart-actions">
+                <button id="cart-pdf-btn" class="cart-action-btn cart-action-pdf"
+                    style="background: #334155; color: white;">
+                    <i class="fas fa-file-pdf"></i>
+                    Descargar PDF
+                </button>
+                <button id="cart-checkout-btn" class="cart-action-btn cart-action-checkout">
+                    <i class="fas fa-credit-card"></i>
+                    Finalizar Compra
+                </button>
+                <button id="cart-whatsapp-btn" class="cart-action-btn cart-action-wa">
+                    <i class="fab fa-whatsapp"></i>
+                    Pedir por WhatsApp
+                </button>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- ================= HERO BANNER ================= -->
+    <section class="catalog-banner">
+        <div class="container">
+            <h1>Nuestro Catálogo</h1>
+            <p>Soluciones integrales de abastecimiento con productos seleccionados bajo los más altos estándares de
+                calidad.</p>
+        </div>
+    </section>
+
+    <!-- ================= PROMO BANNER ================= -->
+    <section class="promo-banner"
+        style="background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); padding: 15px 0; text-align: center; color: white;">
+        <div class="container"
+            style="display: flex; align-items: center; justify-content: center; gap: 15px; flex-wrap: wrap;">
+            <span
+                style="background: rgba(255,255,255,0.2); padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem;">NUEVO</span>
+            <p style="margin: 0; font-size: 0.95rem; font-weight: 500;">¡Explora nuestra nueva sección de productos
+                Veganos y de Panadería!</p>
+        </div>
+    </section>
+
+    <!-- ================= PRODUCTOS ================= -->
+    <section class="products" id="productos" style="padding: 60px 0 120px 0;">
+
+        <div class="container">
+
+            <!-- BÚSQUEDA -->
+            <div class="catalog-search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="catalog-search" placeholder="Buscar producto...">
+            </div>
+
+            <!-- FILTROS -->
+            <div class="filter-buttons" id="dynamic-filters">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+            </div>
+
+            <!-- GRID DE PRODUCTOS -->
+            <div class="products-grid">
+                <!-- cargados dinámicamente por script.js -->
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer">
+
+        <div class="container">
+
+            <div class="footer-grid">
+
+                <div>
+                    <h3>FOURZA</h3>
+                    <p>Comercialización y distribución de alimentos, insumos y materiales de embalaje para empresas.</p>
+                </div>
+
+                <div>
+                    <h3>Servicios</h3>
+                    <a href="../index.html#productos">Alimentos</a>
+                    <a href="../index.html#productos">Embalaje</a>
+                    <a href="../index.html#productos">Distribución</a>
+                </div>
+
+                <div>
+                    <h3>Contacto</h3>
+                    <p>+57 XXX XXX XXXX</p>
+                    <p>ventas@fourza.com</p>
+                </div>
+
+                <div>
+                    <h3>Síguenos</h3>
+                    <div class="socials">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="footer-bottom">
+                © 2026 FOURZA | Todos los derechos reservados
+            </div>
+
+        </div>
+
+    </footer>
+
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a href="https://wa.me/573228194061?text=Hola%20FOURZA,%20estoy%20interesado%20en%20sus%20productos%20y%20quisiera%20recibir%20más%20información."
+        class="whatsapp" target="_blank" aria-label="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ================= CHECKOUT MODAL ================= -->
+    <div id="checkoutModal" class="modal" role="dialog" aria-labelledby="checkout-title" aria-modal="true">
+        <div class="modal-content">
+            <span class="close-modal" id="close-checkout" aria-label="Cerrar">&times;</span>
+            <h2 id="checkout-title">Finalizar Compra</h2>
+            <p>Por favor, completa tus datos para generar tu pedido.</p>
+
+            <form id="checkout-form">
+                <input type="text" id="checkout-nombre" placeholder="Nombre Completo o Empresa" required>
+                <input type="email" id="checkout-email" placeholder="Correo Electrónico" required>
+                <input type="tel" id="checkout-telefono" placeholder="Teléfono / WhatsApp" required>
+                <input type="text" id="checkout-direccion" placeholder="Dirección de Envío" required>
+                <textarea id="checkout-desc" rows="2"
+                    placeholder="Comentarios adicionales para entrega (opcional)"></textarea>
+                <div class="payment-methods" aria-label="Metodo de pago">
+                    <span class="payment-methods-title">Metodo de pago</span>
+                    <label class="payment-option payment-option--nequi">
+                        <input type="radio" name="checkout-metodo" value="nequi" checked>
+                        <span class="payment-brand"><img src="../img/nequi.png" alt="" aria-hidden="true"></span>
+                        <span class="payment-label"><strong>Nequi</strong><small>Transferencia inmediata</small></span>
+                        <span class="payment-status" aria-hidden="true"><i class="fas fa-check"></i></span>
+                    </label>
+                    <label class="payment-option payment-option--daviplata">
+                        <input type="radio" name="checkout-metodo" value="daviplata">
+                        <span class="payment-brand"><img src="../img/daviplata.png" alt="" aria-hidden="true"></span>
+                        <span class="payment-label"><strong>Daviplata</strong><small>Transferencia inmediata</small></span>
+                        <span class="payment-status" aria-hidden="true"><i class="fas fa-check"></i></span>
+                    </label>
+                    <label class="payment-option payment-option--bancolombia">
+                        <input type="radio" name="checkout-metodo" value="bancolombia">
+                        <span class="payment-brand"><img src="../img/bancolombia.png" alt="" aria-hidden="true"></span>
+                        <span class="payment-label"><strong>Bancolombia</strong><small>Transferencia bancaria</small></span>
+                        <span class="payment-status" aria-hidden="true"><i class="fas fa-check"></i></span>
+                    </label>
+                </div>
+                <div class="payment-instructions" id="payment-instructions">
+                    Transfiere al número <strong>322 819 4061</strong> (Nequi)
+                </div>
+                <button type="submit" id="btn-confirmar-pago">Confirmar y Pagar</button>
+            </form>
+        </div>
+    </div>
+
+    </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/cart.js"></script>
+
+    <!-- ===== MODAL DETALLE PRODUCTO ===== -->
+    <div id="product-detail-overlay" class="pdm-overlay" style="display:none;"
+        onclick="cerrarProductoModalOverlay(event)">
+        <div id="product-detail-modal" class="pdm-modal" role="dialog" aria-modal="true"
+            aria-label="Detalle de producto">
+            <!-- Contenido generado por JS -->
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div id="toast" class="toast"></div>
+
+</body>
+
+</html>

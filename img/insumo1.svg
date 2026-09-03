@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D9488" />
+      <stop offset="100%" stop-color="#0F766E" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="15" fill="url(#g5)" />
+  <g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(160, 80)">
+    <!-- Industrial drum / container Icon -->
+    <ellipse cx="40" cy="20" rx="25" ry="8" />
+    <path d="M 15 20 L 15 70 C 15 78, 65 78, 65 70 L 65 20" />
+    <path d="M 15 45 C 15 53, 65 53, 65 45" />
+    <!-- Droplet / leaf -->
+    <path d="M 40 38 Q 48 48 40 54 Q 32 48 40 38 Z" fill="#FFFFFF" />
+  </g>
+  <text x="50%" y="240" font-family="'Poppins', sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" text-anchor="middle">INSUMOS</text>
+  <text x="50%" y="270" font-family="'Poppins', sans-serif" font-size="15" fill="#CCFBF1" text-anchor="middle" opacity="0.8">Materia Prima</text>
+</svg>

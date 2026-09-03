@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="15" fill="url(#g2)" />
+  <g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(160, 80)">
+    <!-- Cereal / Crop stalks -->
+    <path d="M 20 80 Q 10 50 40 20" />
+    <path d="M 20 80 Q 30 50 40 20" />
+    <path d="M 20 80 Q 35 60 55 40" />
+    <!-- Wheat grains on stalk -->
+    <path d="M 12 40 C 5 35 15 30 20 38 Z" fill="#FFFFFF" />
+    <path d="M 28 30 C 25 20 35 20 32 30 Z" fill="#FFFFFF" />
+    <path d="M 32 45 C 25 38 38 35 34 45 Z" fill="#FFFFFF" />
+  </g>
+  <text x="50%" y="240" font-family="'Poppins', sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" text-anchor="middle">ALIMENTOS</text>
+  <text x="50%" y="270" font-family="'Poppins', sans-serif" font-size="15" fill="#FEF3C7" text-anchor="middle" opacity="0.8">Cereales Selectos</text>
+</svg>

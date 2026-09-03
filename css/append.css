@@ -1,0 +1,80 @@
+
+/* ==========================================
+   RESPONSIVO GENERAL Y CORRECCIONES MOVILES
+   ========================================== */
+
+@media(max-width: 900px) {
+    /* Reducir todos los paddings enormes en movil */
+    .mission-vision {
+        padding: 60px 0 !important;
+    }
+    .products-preview {
+        padding: 60px 0 !important;
+    }
+    .coverage {
+        padding: 60px 5% !important;
+    }
+    .team-section {
+        padding: 60px 5% !important;
+    }
+    .contact {
+        padding: 60px 0 !important;
+    }
+
+    /* Cobertura Grid */
+    .coverage-grid {
+        grid-template-columns: 1fr !important;
+        text-align: center;
+        gap: 40px !important;
+    }
+    .coverage-badge {
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        transform: none !important;
+        margin: 20px auto 0 auto !important;
+        width: fit-content;
+    }
+    .coverage-list {
+        text-align: left;
+    }
+
+    /* Pestañas Mision/Vision */
+    .mv-tabs-header {
+        display: flex !important;
+        flex-direction: column !important;
+        border-radius: 20px !important;
+        padding: 10px !important;
+    }
+    .mv-tab-btn {
+        border-radius: 15px !important;
+        margin-bottom: 5px !important;
+        padding: 12px !important;
+    }
+
+    /* Portafolio (Soluciones de Abastecimiento) */
+    .categories-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    .category-photo {
+        height: 200px !important;
+    }
+
+    /* Títulos más pequeños */
+    .section-title h2 {
+        font-size: 2.2rem !important;
+    }
+    .mission-vision .section-title h2 {
+        font-size: 2.2rem !important;
+    }
+    .coverage-info h2 {
+        font-size: 2.2rem !important;
+    }
+
+    /* Contacto (por si acaso no quedó bien) */
+    .contact-grid {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+    }
+}

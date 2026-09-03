@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="gVini" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#22D3EE" />
+      <stop offset="100%" stop-color="#0369A1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="300" rx="15" fill="url(#gVini)" />
+  <g fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" transform="translate(150, 75)">
+    <!-- Roll of Film Icon -->
+    <!-- Inner core / top ellipse -->
+    <ellipse cx="50" cy="20" rx="25" ry="10" />
+    <ellipse cx="50" cy="20" rx="12" ry="5" />
+    <!-- Sides of roll -->
+    <path d="M 25 20 L 25 80 C 25 85, 35 90, 50 90 C 65 90, 75 85, 75 80 L 75 20" />
+    <!-- Sheet/film coming off the roll -->
+    <path d="M 75 40 Q 95 45 95 65 L 95 95 Q 65 95 50 90" />
+    <path d="M 50 20 L 50 90" stroke-dasharray="2 6" />
+  </g>
+  <text x="50%" y="240" font-family="'Poppins', sans-serif" font-weight="700" font-size="22" fill="#FFFFFF" text-anchor="middle">EMBALAJE</text>
+  <text x="50%" y="270" font-family="'Poppins', sans-serif" font-size="15" fill="#CFFAFE" text-anchor="middle" opacity="0.8">Vinipel Estirable</text>
+</svg>

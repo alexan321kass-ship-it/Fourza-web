@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#F97316" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#FB923C" stop-opacity="0.3" />
+    </linearGradient>
+    <linearGradient id="glowGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#F97316" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#F97316" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="600" fill="url(#bgGrad)" />
+  
+  <!-- Decorative Grid/Abstract Shapes -->
+  <path d="M 50 50 L 750 50 L 750 550 L 50 550 Z" fill="none" stroke="#334155" stroke-width="1" stroke-dasharray="10 15" />
+  <circle cx="400" cy="300" r="220" fill="none" stroke="#1E293B" stroke-width="8" />
+  <circle cx="400" cy="300" r="180" fill="none" stroke="url(#accentGrad)" stroke-width="2" stroke-dasharray="5 10" />
+
+  <!-- Industrial / Logistics Silhouette Design -->
+  <g transform="translate(150, 150)">
+    <!-- Warehouse building silhouette -->
+    <path d="M 100 250 L 100 180 L 180 140 L 260 180 L 260 250 Z" fill="#334155" opacity="0.5" />
+    <path d="M 240 250 L 240 160 L 320 120 L 400 160 L 400 250 Z" fill="#475569" opacity="0.7" />
+    
+    <!-- Modern logistics trucks & lines -->
+    <path d="M 50 250 L 120 250 L 120 220 L 70 220 Z" fill="#F97316" opacity="0.9" />
+    <circle cx="65" cy="255" r="7" fill="#1E293B" />
+    <circle cx="105" cy="255" r="7" fill="#1E293B" />
+    
+    <!-- Globe/Network Lines -->
+    <path d="M 150 100 Q 250 50 350 100" fill="none" stroke="#F97316" stroke-width="3" stroke-linecap="round" />
+    <circle cx="150" cy="100" r="6" fill="#F97316" />
+    <circle cx="350" cy="100" r="6" fill="#F97316" />
+    <circle cx="250" cy="75" r="8" fill="#FB923C" />
+  </g>
+
+  <!-- Ground glow -->
+  <rect x="0" y="450" width="800" height="150" fill="url(#glowGrad)" />
+
+  <!-- Text and Branding -->
+  <text x="50%" y="460" font-family="'Poppins', sans-serif" font-size="28" font-weight="800" fill="#FFFFFF" text-anchor="middle" letter-spacing="4">FOURZA LOGISTICS</text>
+  <text x="50%" y="495" font-family="'Poppins', sans-serif" font-size="16" fill="#94A3B8" text-anchor="middle">Eficiencia, Calidad y Compromiso en cada entrega</text>
+</svg>

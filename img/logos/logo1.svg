@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+  <g fill="none" stroke="#475569" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" transform="translate(10, 15)">
+    <!-- Leaf/Package Eco Icon -->
+    <path d="M 15 25 L 35 15 L 55 25 L 55 45 L 35 55 L 15 45 Z" />
+    <path d="M 35 15 L 35 55" />
+    <path d="M 15 25 L 35 35 L 55 25" />
+    <path d="M 25 30 C 25 20 45 20 45 30" stroke="#F97316" />
+  </g>
+  <text x="75" y="48" font-family="'Poppins', sans-serif" font-weight="700" font-size="20" fill="#1E293B" letter-spacing="1">ECO<tspan fill="#F97316">PACK</tspan></text>
+</svg>

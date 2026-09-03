@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 80" width="240" height="80">
+  <!-- Modern Isometric Box / Supplies Icon -->
+  <g transform="translate(5, 0)">
+    <!-- Ambient glow/circle -->
+    <circle cx="40" cy="40" r="35" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1" />
+    
+    <!-- Top Face (Orange) -->
+    <polygon points="40,18 62,29 40,40 18,29" fill="#F97316" />
+    
+    <!-- Left Face (Navy Slate) -->
+    <polygon points="18,29 40,40 40,64 18,53" fill="#0F172A" />
+    
+    <!-- Right Face (Vibrant Blue) -->
+    <polygon points="40,40 62,29 62,53 40,64" fill="#3B82F6" />
+    
+    <!-- Inner design details: Stylized "J" path on the box -->
+    <path d="M 40,28 L 51,33 L 40,39" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+    <path d="M 40,39 L 40,58 L 29,52" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.9" />
+  </g>
+  
+  <!-- Typography -->
+  <text x="88" y="36" font-family="'Poppins', 'Segoe UI', -apple-system, sans-serif" font-size="20" font-weight="600" fill="#0F172A" letter-spacing="0.5">Insumos</text>
+  <text x="88" y="64" font-family="'Poppins', 'Segoe UI', -apple-system, sans-serif" font-size="26" font-weight="800" fill="#F97316" letter-spacing="1.5">JIM</text>
+</svg>

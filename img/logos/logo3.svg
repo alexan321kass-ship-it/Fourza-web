@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80" width="200" height="80">
+  <g fill="none" stroke="#475569" stroke-width="2.5" stroke-linecap="round" transform="translate(15, 18)">
+    <!-- Plate & Fork/Spoon minimal icon -->
+    <circle cx="25" cy="25" r="22" stroke="#475569" />
+    <path d="M 20 15 L 20 28" />
+    <path d="M 16 15 L 24 15" />
+    <path d="M 30 15 L 30 28" stroke="#F97316" />
+    <circle cx="30" cy="15" r="3" fill="#F97316" />
+  </g>
+  <text x="75" y="48" font-family="'Poppins', sans-serif" font-weight="700" font-size="19" fill="#1E293B" letter-spacing="1">FOOD<tspan fill="#F97316">CORP</tspan></text>
+</svg>
