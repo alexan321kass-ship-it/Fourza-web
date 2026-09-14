@@ -5,8 +5,7 @@
   "main": "database.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "postinstall": "npm rebuild sqlite3 --build-from-source || true"
+    "start": "node server.js"
   },
   "engines": {
     "node": "20.x"
@@ -17,7 +16,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "cloudinary": "^2.5.0",
+    "cloudinary": "^1.41.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
