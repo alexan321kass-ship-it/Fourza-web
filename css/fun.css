@@ -467,15 +467,17 @@ p {
 
 /* HEADER GLASSMORPHISM */
 .header {
-    background: transparent !important;
-    border-bottom: none !important;
+    background: transparent;
+    border-bottom: none;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .header.scrolled {
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(10px);
-    border-bottom: 2px solid var(--fun-border);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    background: #ffffff !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 2px solid var(--fun-border) !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
 }
 
 .nav-menu a {
