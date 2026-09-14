@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://fourza-backend.onrender.com/api/:path*"
+      "destination": "https://fourza-web.onrender.com/api/:path*"
     }
   ]
 }
