@@ -1,6 +1,6 @@
 /* ==========================================
    ADAPTACIÓN EXCLUSIVA PARA PANTALLAS MÓVILES
-   Fourza S.A.S - Ajustes de Inicio y Quiénes Somos
+   Fourza S.A.S - Ajustes de Inicio, Quiénes Somos y Misión/Visión
    ========================================== */
 
 @media (max-width: 900px) {
@@ -104,7 +104,57 @@
     }
 
     /* ==========================================
-       3. OTRAS SECCIONES EN MÓVIL
+       3. MISIÓN Y VISIÓN (TARJETAS FLIP EN MÓVIL)
+       ========================================== */
+    .flip-cards-container {
+        gap: 25px !important;
+        margin-top: 25px !important;
+    }
+
+    .flip-card {
+        width: 100% !important;
+        max-width: 450px !important;
+        height: 440px !important;
+        margin: 0 auto !important;
+    }
+
+    .flip-card-front, 
+    .flip-card-back {
+        padding: 25px 20px !important;
+    }
+
+    .flip-icon-wrapper {
+        font-size: 3.5rem !important;
+        margin-bottom: 15px !important;
+    }
+
+    .flip-card-front h3 {
+        font-size: 1.8rem !important;
+    }
+
+    .flip-hint {
+        margin-top: 15px !important;
+        font-size: 0.9rem !important;
+    }
+
+    .flip-card-back {
+        overflow-y: auto !important;
+    }
+
+    .flip-card-back h3 {
+        font-size: 1.5rem !important;
+        margin-bottom: 12px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .flip-card-back p {
+        font-size: 0.93rem !important;
+        line-height: 1.55 !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* ==========================================
+       4. OTRAS SECCIONES EN MÓVIL
        ========================================== */
     .mission-vision,
     .products-preview,
@@ -170,6 +220,11 @@
     }
 }
 
+/* Permitir voltear al toque en dispositivos táctiles */
+.flip-card.flipped .flip-card-inner {
+    transform: rotateY(180deg) !important;
+}
+
 @media (max-width: 576px) {
     .hero h1 {
         font-size: 2.1rem !important;
@@ -189,5 +244,18 @@
 
     .section-title h2 {
         font-size: 1.7rem !important;
+    }
+
+    .flip-card {
+        height: 470px !important;
+    }
+
+    .flip-card-back {
+        padding: 20px 16px !important;
+    }
+
+    .flip-card-back p {
+        font-size: 0.88rem !important;
+        line-height: 1.5 !important;
     }
 }
