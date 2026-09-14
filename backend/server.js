@@ -7,13 +7,15 @@ const { body, validationResult } = require('express-validator');
 const multer = require('multer');
 const fs = require('fs');
 const bcrypt = require('bcrypt');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const db = require('./database');
 const mailer = require('./mailer');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ConfiguraciÃ³n secreta
+// Configuración secreta
 const SECRET_KEY = process.env.SECRET_KEY || "fourza_secreto_super_seguro";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin";
 
@@ -24,15 +26,34 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/img', express.static(path.join(__dirname, '../img')));
 app.use(express.static(path.join(__dirname, '..')));
 
-// ConfiguraciÃ³n de Multer
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
-});
+// Configuración de Multer (Cloudinary / Local Disk)
+let storage;
+if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+
+    storage = new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+            folder: 'fourza_productos',
+            allowed_formats: ['jpg', 'png', 'jpeg', 'webp', 'svg']
+        }
+    });
+    console.log("Almacenamiento de imágenes: Cloudinary Activo ☁️");
+} else {
+    storage = multer.diskStorage({
+        destination: (req, file, cb) => {
+            cb(null, 'uploads/');
+        },
+        filename: (req, file, cb) => {
+            cb(null, Date.now() + path.extname(file.originalname));
+        }
+    });
+    console.log("Almacenamiento de imágenes: Local /uploads 📁");
+}
 const upload = multer({ storage: storage });
 
 // Middleware de AutenticaciÃ³n
@@ -243,12 +264,12 @@ app.post('/api/productos', verificarToken, upload.single('imagen'), (req, res) =
         return res.status(400).json({ error: 'Todos los campos y la imagen son obligatorios' });
     }
 
-    const imagen_url = `/uploads/${req.file.filename}`;
+    const imagen_url = (req.file.path && req.file.path.startsWith('http')) ? req.file.path : `/uploads/${req.file.filename}`;
     
     const sql = `INSERT INTO productos (titulo, descripcion, categoria, imagen_url, precio, variantes) VALUES (?, ?, ?, ?, ?, ?)`;
     db.run(sql, [titulo, descripcion, categoria, imagen_url, precio || '', variantes || '[]'], function(err) {
         if (err) return res.status(500).json({ error: err.message });
-        registrarAccion(req.usuario.id, 'CREAR_PRODUCTO', `AÃ±adiÃ³ producto: ${titulo}`);
+        registrarAccion(req.usuario.id, 'CREAR_PRODUCTO', `Añadió producto: ${titulo}`);
         res.status(201).json({ success: true, message: 'Producto creado', id: this.lastID });
     });
 });
@@ -260,7 +281,7 @@ app.put('/api/productos/:id', verificarToken, upload.single('imagen'), (req, res
     const { titulo, descripcion, categoria, precio, variantes } = req.body;
 
     if (!titulo || !descripcion || !categoria) {
-        return res.status(400).json({ error: 'TÃ­tulo, descripciÃ³n y categorÃ­a son obligatorios' });
+        return res.status(400).json({ error: 'Título, descripción y categoría son obligatorios' });
     }
 
     // Obtener imagen actual para decidir si reemplazar
@@ -271,14 +292,14 @@ app.put('/api/productos/:id', verificarToken, upload.single('imagen'), (req, res
         let imagen_url = row.imagen_url;
 
         if (req.file) {
-            // Hay nueva imagen â€” borrar la anterior si era un upload (no un SVG del sistema)
+            // Hay nueva imagen — borrar la anterior si era un upload local
             if (imagen_url && imagen_url.startsWith('/uploads/')) {
                 const oldPath = path.join(__dirname, imagen_url);
                 fs.unlink(oldPath, (err) => {
                     if (err) console.error('Error borrando imagen anterior:', err);
                 });
             }
-            imagen_url = `/uploads/${req.file.filename}`;
+            imagen_url = (req.file.path && req.file.path.startsWith('http')) ? req.file.path : `/uploads/${req.file.filename}`;
         }
 
         const sql = `UPDATE productos SET titulo = ?, descripcion = ?, categoria = ?, imagen_url = ?, precio = ?, variantes = ? WHERE id = ?`;
