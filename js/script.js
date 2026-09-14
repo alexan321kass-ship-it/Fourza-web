@@ -152,9 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (header && !header.classList.contains("header-static")) {
 
-        window.addEventListener("scroll", () => {
+        const checkHeaderScroll = () => {
 
-            if (window.scrollY > 50) {
+            if (window.scrollY > 30) {
 
                 header.classList.add("scrolled");
 
@@ -164,7 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-        });
+        };
+
+        window.addEventListener("scroll", checkHeaderScroll);
+
+        checkHeaderScroll();
 
     }
 

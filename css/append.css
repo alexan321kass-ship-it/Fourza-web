@@ -259,3 +259,26 @@
         line-height: 1.5 !important;
     }
 }
+
+/* ==========================================
+   ESTILO DEL HEADER AL HACER SCROLL
+   ========================================== */
+.header {
+    transition: background 0.3s ease, box-shadow 0.3s ease, border 0.3s ease !important;
+}
+
+.header.scrolled {
+    background: rgba(255, 255, 255, 0.98) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+}
+
+.header.scrolled .nav-menu a {
+    color: var(--text-dark, #1e293b) !important;
+}
+
+.header.scrolled .menu-toggle {
+    color: var(--text-dark, #1e293b) !important;
+}
