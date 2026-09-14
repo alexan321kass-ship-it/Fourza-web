@@ -1,5 +1,6 @@
 /* ==========================================
    ADAPTACIÓN EXCLUSIVA PARA PANTALLAS MÓVILES
+   Fourza S.A.S - Ajustes de Inicio y Quiénes Somos
    ========================================== */
 
 @media (max-width: 900px) {
@@ -9,23 +10,117 @@
         width: 100% !important;
     }
 
-    /* Reducir paddings en móvil manteniendo el diseño original */
+    /* ==========================================
+       1. INICIO (HERO SECTION)
+       ========================================== */
+    .hero {
+        min-height: auto !important;
+        padding: 120px 0 60px 0 !important;
+    }
+
+    .hero-content {
+        padding: 0 15px !important;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem !important;
+        letter-spacing: -1px !important;
+        margin-bottom: 20px !important;
+        line-height: 1.2 !important;
+        word-wrap: break-word !important;
+        text-shadow: 2px 2px 0 var(--brand-orange), 0 0 15px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .hero p {
+        font-size: 1.05rem !important;
+        line-height: 1.6 !important;
+        padding: 0 10px !important;
+    }
+
+    .hero-buttons {
+        margin-top: 25px !important;
+    }
+
+    .hero-buttons .btn-primary {
+        font-size: 1.05rem !important;
+        padding: 14px 32px !important;
+        width: auto !important;
+        max-width: 100% !important;
+    }
+
+    /* ==========================================
+       2. QUIÉNES SOMOS (NOSOTROS SECTION)
+       ========================================== */
+    .dark-glass-section,
+    .about {
+        padding: 50px 0 !important;
+    }
+
+    .about-modern-grid {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+    }
+
+    .about-mascot-wrapper {
+        margin-bottom: 10px !important;
+    }
+
+    .about-mascot-img-3d {
+        max-width: 320px !important;
+        transform: none !important;
+        margin: 0 auto !important;
+        display: block !important;
+    }
+
+    .mascot-backdrop-glow {
+        width: 260px !important;
+        height: 260px !important;
+    }
+
+    .about-glass-card {
+        padding: 30px 20px !important;
+        border-radius: 24px !important;
+        text-align: center !important;
+    }
+
+    .neon-tag {
+        font-size: 0.8rem !important;
+        padding: 6px 16px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .neon-heading {
+        font-size: 1.8rem !important;
+        line-height: 1.3 !important;
+        word-break: break-word !important;
+        overflow-wrap: break-word !important;
+        margin-bottom: 18px !important;
+    }
+
+    .glass-text {
+        font-size: 1rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* ==========================================
+       3. OTRAS SECCIONES EN MÓVIL
+       ========================================== */
     .mission-vision,
     .products-preview,
     .contact {
-        padding: 60px 0 !important;
+        padding: 50px 0 !important;
     }
 
     .coverage,
     .team-section {
-        padding: 60px 5% !important;
+        padding: 50px 5% !important;
     }
 
-    /* Cobertura Grid */
     .coverage-grid {
         grid-template-columns: 1fr !important;
         text-align: center;
-        gap: 40px !important;
+        gap: 30px !important;
     }
 
     .coverage-badge {
@@ -37,11 +132,6 @@
         width: fit-content;
     }
 
-    .coverage-list {
-        text-align: left;
-    }
-
-    /* Pestañas Misión/Visión */
     .mv-tabs-header {
         display: flex !important;
         flex-direction: column !important;
@@ -55,30 +145,20 @@
         padding: 12px !important;
     }
 
-    /* Portafolio y Categorías */
     .categories-grid {
         grid-template-columns: 1fr !important;
         gap: 20px !important;
     }
 
-    .category-photo {
-        height: 200px !important;
+    .section-title h2 {
+        font-size: 2rem !important;
     }
 
-    /* Títulos en dispositivos móviles */
-    .section-title h2,
-    .mission-vision .section-title h2,
-    .coverage-info h2 {
-        font-size: 2.2rem !important;
-    }
-
-    /* Formulario de Contacto */
     .contact-grid {
         grid-template-columns: 1fr !important;
-        gap: 40px !important;
+        gap: 30px !important;
     }
 
-    /* Carrusel 3D de Marcas/Aliados en móviles */
     .carousel-3d-scene {
         transform: scale(0.7) !important;
         margin: 40px auto !important;
@@ -86,17 +166,28 @@
 
     .brands-section-3d {
         min-height: 520px !important;
-        padding: 60px 0 !important;
+        padding: 50px 0 !important;
     }
 }
 
-@media (max-width: 600px) {
-    .carousel-3d-scene {
-        transform: scale(0.55) !important;
-        margin: 20px auto !important;
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 2.1rem !important;
+    }
+
+    .neon-heading {
+        font-size: 1.5rem !important;
+    }
+
+    .about-glass-card {
+        padding: 24px 16px !important;
+    }
+
+    .about-mascot-img-3d {
+        max-width: 250px !important;
     }
 
     .section-title h2 {
-        font-size: 1.8rem !important;
+        font-size: 1.7rem !important;
     }
 }
