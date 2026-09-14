@@ -1,24 +1,24 @@
-
 /* ==========================================
-   RESPONSIVO GENERAL Y CORRECCIONES MOVILES
+   ADAPTACIÓN EXCLUSIVA PARA PANTALLAS MÓVILES
    ========================================== */
 
-@media(max-width: 900px) {
-    /* Reducir todos los paddings enormes en movil */
-    .mission-vision {
-        padding: 60px 0 !important;
+@media (max-width: 900px) {
+    /* Evitar scroll horizontal en dispositivos móviles */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
     }
-    .products-preview {
-        padding: 60px 0 !important;
-    }
-    .coverage {
-        padding: 60px 5% !important;
-    }
-    .team-section {
-        padding: 60px 5% !important;
-    }
+
+    /* Reducir paddings en móvil manteniendo el diseño original */
+    .mission-vision,
+    .products-preview,
     .contact {
         padding: 60px 0 !important;
+    }
+
+    .coverage,
+    .team-section {
+        padding: 60px 5% !important;
     }
 
     /* Cobertura Grid */
@@ -27,6 +27,7 @@
         text-align: center;
         gap: 40px !important;
     }
+
     .coverage-badge {
         position: relative !important;
         bottom: auto !important;
@@ -35,46 +36,67 @@
         margin: 20px auto 0 auto !important;
         width: fit-content;
     }
+
     .coverage-list {
         text-align: left;
     }
 
-    /* Pestañas Mision/Vision */
+    /* Pestañas Misión/Visión */
     .mv-tabs-header {
         display: flex !important;
         flex-direction: column !important;
         border-radius: 20px !important;
         padding: 10px !important;
     }
+
     .mv-tab-btn {
         border-radius: 15px !important;
         margin-bottom: 5px !important;
         padding: 12px !important;
     }
 
-    /* Portafolio (Soluciones de Abastecimiento) */
+    /* Portafolio y Categorías */
     .categories-grid {
         grid-template-columns: 1fr !important;
         gap: 20px !important;
     }
+
     .category-photo {
         height: 200px !important;
     }
 
-    /* Títulos más pequeños */
-    .section-title h2 {
-        font-size: 2.2rem !important;
-    }
-    .mission-vision .section-title h2 {
-        font-size: 2.2rem !important;
-    }
+    /* Títulos en dispositivos móviles */
+    .section-title h2,
+    .mission-vision .section-title h2,
     .coverage-info h2 {
         font-size: 2.2rem !important;
     }
 
-    /* Contacto (por si acaso no quedó bien) */
+    /* Formulario de Contacto */
     .contact-grid {
         grid-template-columns: 1fr !important;
         gap: 40px !important;
+    }
+
+    /* Carrusel 3D de Marcas/Aliados en móviles */
+    .carousel-3d-scene {
+        transform: scale(0.7) !important;
+        margin: 40px auto !important;
+    }
+
+    .brands-section-3d {
+        min-height: 520px !important;
+        padding: 60px 0 !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .carousel-3d-scene {
+        transform: scale(0.55) !important;
+        margin: 20px auto !important;
+    }
+
+    .section-title h2 {
+        font-size: 1.8rem !important;
     }
 }
