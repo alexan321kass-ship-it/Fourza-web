@@ -3,6 +3,10 @@
     {
       "source": "/api/:path*",
       "destination": "https://fourza-web.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://fourza-web.onrender.com/uploads/:path*"
     }
   ]
 }
