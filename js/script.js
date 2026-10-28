@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
         });
+    });
 
     document.querySelectorAll(".flip-card").forEach(card => {
         card.addEventListener("click", () => {
@@ -1251,12 +1252,19 @@ fadeElements.forEach(element => {
    PRELOADER
 ========================================== */
 
-window.addEventListener('load', () => {
+function ocultarPreloader() {
     const preloader = document.querySelector('.preloader');
-    if (preloader) {
+    if (preloader && !preloader.classList.contains('hide')) {
         preloader.classList.add('hide');
     }
+}
+
+window.addEventListener('load', ocultarPreloader);
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(ocultarPreloader, 600);
 });
+// Respaldo de seguridad para que jamás se quede congelado
+setTimeout(ocultarPreloader, 2000);
 
 /* ==========================================
    MODAL PROMOCIONAL
