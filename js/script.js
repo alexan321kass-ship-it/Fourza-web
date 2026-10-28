@@ -632,12 +632,18 @@ async function fetchProductos() {
 let _allProductos = [];
 
 function resolverRutaImagen(url) {
-    if (!url) return 'img/prod_alimentos.png';
     const isInCatalogo = window.location.pathname.includes('/catalogo/');
+    const fallback = isInCatalogo ? '../img/prod_alimentos.png' : 'img/prod_alimentos.png';
+    if (!url) return fallback;
     if (isInCatalogo && !url.startsWith('/') && !url.startsWith('http') && !url.startsWith('../')) {
         return '../' + url;
     }
     return url;
+}
+
+function getImageFallback() {
+    const isInCatalogo = window.location.pathname.includes('/catalogo/');
+    return isInCatalogo ? '../img/prod_alimentos.png' : 'img/prod_alimentos.png';
 }
 
 function renderProductos(productos) {
@@ -689,7 +695,8 @@ function renderProductos(productos) {
                 role="button" tabindex="0"
                 aria-label="Ver detalle de ${p.titulo}">
                 <div class="product-card-img-wrap">
-                    <img src="${imgSrc}" alt="${p.titulo}" loading="lazy" onerror="this.onerror=null; this.src='img/prod_alimentos.png';">
+                    <img src="${imgSrc}" alt="${p.titulo}" loading="lazy" onerror="this.onerror=null; this.src=getImageFallback();"
+                         style="background:#f8f9fa;">
                     <div class="product-card-overlay">
                         <span class="quick-view-badge"><i class="fas fa-eye"></i> Vista Rápida</span>
                     </div>
@@ -752,26 +759,32 @@ window.abrirProductoModal = function (id) {
     const modal = document.getElementById('product-detail-modal');
     if (!overlay || !modal) return;
 
+    const imgSrcModal = resolverRutaImagen(p.imagen_url);
+    const descText = p.descripcion && p.descripcion.trim() ? p.descripcion : 'Producto de alta calidad, seleccionado bajo los más estrictos estándares de Comercializadora FOURZA S.A.S';
+    const waText = encodeURIComponent(`Hola FOURZA, estoy interesado en el producto: ${p.titulo} (SKU: FRZ-${p.id.toString().padStart(4,'0')}). ¿Pueden darme más información?`);
+    const skuLabel = `FRZ-${p.id.toString().padStart(4, '0')}`;
+
     modal.innerHTML = `
             <button class="pdm-close" onclick="cerrarProductoModal()" aria-label="Cerrar">&times;</button>
             <div class="pdm-body">
                 <div class="pdm-image-section">
                     <div class="pdm-main-img-wrap">
                         <span class="pdm-cat-tag">${catLabel}</span>
-                        <img id="pdm-main-img" src="${p.imagen_url}" alt="${p.titulo}">
+                        <img id="pdm-main-img" src="${imgSrcModal}" alt="${p.titulo}"
+                             onerror="this.onerror=null;this.src=getImageFallback();">
                     </div>
                     <div class="pdm-meta-footer">
-                        <span><strong>SKU:</strong> FRZ-${p.id.toString().padStart(4, '0')}</span>
-                        <span><strong>Categoría:</strong> ${catLabel}</span>
+                        <span><i class="fas fa-barcode" style="color:#F97316;margin-right:4px"></i> <strong>SKU:</strong> ${skuLabel}</span>
+                        <span><i class="fas fa-tag" style="color:#F97316;margin-right:4px"></i> <strong>Categoría:</strong> ${catLabel}</span>
                     </div>
                 </div>
                 <div class="pdm-info-section">
                     <h2 class="pdm-title">${p.titulo}</h2>
                     <div class="pdm-price-block">
-                        <p id="pdm-price" class="pdm-price">${precioDisplay}</p>
+                        <p id="pdm-price" class="pdm-price">${precioDisplay ? '$' + precioDisplay : '<span style="font-size:1rem;color:#64748b">Precio mayorista — consultar</span>'}</p>
                     </div>
                     
-                    <p class="pdm-desc">${p.descripcion}</p>
+                    <p class="pdm-desc">${descText}</p>
                     
                     <hr class="pdm-divider">
                     
@@ -794,6 +807,9 @@ window.abrirProductoModal = function (id) {
                             <i class="fas fa-bag-shopping"></i> Añadir al carrito
                         </button>
                     </div>
+                    <a class="pdm-wa-btn" href="https://wa.me/573228194061?text=${waText}" target="_blank" rel="noopener">
+                        <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+                    </a>
                 </div>
             </div>`;
 

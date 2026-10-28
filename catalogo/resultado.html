@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estado de Transacción | FOURZA</title>
-    
+    <title>Resumen de Pedido | FOURZA</title>
+    <meta name="robots" content="noindex">
+
     <link rel="icon" type="image/svg+xml" href="../img/favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -13,697 +14,403 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <style>
-        .result-container {
-            max-width: 700px;
-            margin: 120px auto 80px auto;
-            padding: 0 20px;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .result-card {
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            padding: 40px;
-            text-align: center;
-            border: 1px solid #f1f5f9;
-        }
-
-        .status-icon {
-            font-size: 4.5rem;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        .status-icon.approved { color: #10B981; }
-        .status-icon.declined { color: #EF4444; }
-        .status-icon.pending { color: #F59E0B; }
-        .status-icon.error { color: #6B7280; }
-
-        .result-title {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #0F172A;
-            margin-bottom: 10px;
-        }
-
-        .result-msg {
-            color: #64748B;
-            font-size: 1rem;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        .details-section {
-            text-align: left;
-            border-top: 1px dashed #e2e8f0;
-            padding-top: 25px;
-            margin-bottom: 30px;
-        }
-
-        .details-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #0F172A;
-            margin-bottom: 15px;
-        }
-
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        @media (max-width: 600px) {
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .info-item {
-            font-size: 0.9rem;
-        }
-
-        .info-item strong {
-            color: #475569;
-            display: block;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-item span {
-            color: #0F172A;
-            font-weight: 500;
-        }
-
-        .products-table-wrapper {
-            margin-top: 20px;
-            border: 1px solid #f1f5f9;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .products-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.9rem;
-        }
-
-        .products-table th, .products-table td {
-            padding: 12px 16px;
-            text-align: left;
-        }
-
-        .products-table th {
-            background: #f8fafc;
-            color: #475569;
-            font-weight: 600;
-        }
-
-        .products-table td {
-            border-top: 1px solid #f1f5f9;
-            color: #0F172A;
-        }
-
-        .products-table td.text-right, .products-table th.text-right {
-            text-align: right;
-        }
-
-        .total-row-display {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #0F172A;
-            padding: 16px;
-            background: #f8fafc;
-            border-top: 1px solid #f1f5f9;
-        }
-
-        .total-row-display .total-value {
-            color: #F97316;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
-        }
-
-        @media (max-width: 600px) {
-            .btn-group {
-                flex-direction: column;
-            }
-        }
-
-        .btn-res {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-primary-res {
-            background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
-            color: #ffffff;
-        }
-
-        .btn-primary-res:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-        }
-
-        .btn-wa-res {
-            background: #25D366;
-            color: #ffffff;
-        }
-
-        .btn-wa-res:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15);
-        }
-
-        /* Loading Spinner */
-        .loading-wrapper {
-            padding: 60px 0;
-        }
-
-        .spinner-res {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #F97316;
-            border-radius: 50%;
-            animation: spin-res 1s linear infinite;
-            margin: 0 auto 20px auto;
-        }
-
-        @keyframes spin-res {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        body { background: #f0f4f8; }
+        .res-page { max-width: 780px; margin: 110px auto 80px; padding: 0 16px; font-family: 'Poppins', sans-serif; }
+        .loading-card { background: #fff; border-radius: 24px; padding: 70px 40px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,.06); }
+        .spin-orange { width: 52px; height: 52px; border: 4px solid #fee2c2; border-top-color: #F97316; border-radius: 50%; animation: spinO 1s linear infinite; margin: 0 auto 22px; }
+        @keyframes spinO { to { transform: rotate(360deg); } }
+        .status-banner { border-radius: 24px 24px 0 0; padding: 40px 40px 30px; text-align: center; }
+        .status-banner.pending  { background: linear-gradient(135deg,#fffbeb,#fef3c7); border-bottom: 3px solid #F59E0B; }
+        .status-banner.approved { background: linear-gradient(135deg,#ecfdf5,#d1fae5); border-bottom: 3px solid #10B981; }
+        .status-banner.declined { background: linear-gradient(135deg,#fef2f2,#fee2e2); border-bottom: 3px solid #EF4444; }
+        .status-banner.error    { background: linear-gradient(135deg,#f8fafc,#f1f5f9); border-bottom: 3px solid #94a3b8; }
+        .status-ico { font-size: 4rem; margin-bottom: 14px; display: block; animation: popIn .5s cubic-bezier(.34,1.56,.64,1); }
+        @keyframes popIn { from { transform: scale(0); opacity:0; } to { transform: scale(1); opacity:1; } }
+        .status-ico.pending  { color: #F59E0B; }
+        .status-ico.approved { color: #10B981; }
+        .status-ico.declined { color: #EF4444; }
+        .status-ico.error    { color: #94a3b8; }
+        .status-title { font-size: 1.75rem; font-weight: 800; color: #0F172A; margin: 0 0 10px; }
+        .status-msg { color: #475569; line-height: 1.7; font-size: 0.97rem; margin: 0 auto; max-width: 540px; }
+        .stepper-wrap { background: #fff; padding: 28px 40px; border-bottom: 1px solid #f1f5f9; }
+        .stepper { display: flex; align-items: flex-start; justify-content: space-between; position: relative; }
+        .stepper::before { content: ''; position: absolute; top: 20px; left: 32px; right: 32px; height: 2px; background: #e2e8f0; z-index: 0; }
+        .stepper-line-fill { position: absolute; top: 20px; left: 32px; height: 2px; background: #F97316; z-index: 1; transition: width 0.6s ease; }
+        .step { display: flex; flex-direction: column; align-items: center; gap: 8px; position: relative; z-index: 2; flex: 1; }
+        .step-dot { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #f1f5f9; border: 2px solid #e2e8f0; font-size: 1rem; color: #94a3b8; font-weight: 700; transition: all 0.3s; }
+        .step.done .step-dot { background: #F97316; border-color: #F97316; color: #fff; }
+        .step.active .step-dot { background: #fff; border-color: #F97316; color: #F97316; box-shadow: 0 0 0 4px rgba(249,115,22,.15); }
+        .step-label { font-size: 0.72rem; font-weight: 600; color: #94a3b8; text-align: center; text-transform: uppercase; letter-spacing: 0.04em; line-height: 1.3; }
+        .step.done .step-label, .step.active .step-label { color: #0F172A; }
+        .payment-box { background: #fff; padding: 28px 40px; border-bottom: 1px solid #f1f5f9; }
+        .payment-box-inner { background: linear-gradient(135deg,#fff7ed,#ffedd5); border: 2px solid #fed7aa; border-radius: 16px; padding: 24px; }
+        .payment-box-title { font-size: 1.05rem; font-weight: 700; color: #c2410c; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+        .payment-steps-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .payment-steps-list li { display: flex; align-items: flex-start; gap: 12px; font-size: 0.9rem; color: #374151; line-height: 1.5; }
+        .step-num { min-width: 26px; height: 26px; background: #F97316; color: #fff; border-radius: 50%; font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+        .payment-number-highlight { font-size: 1.3rem; font-weight: 800; color: #0F172A; background: #fff; border: 2px dashed #F97316; border-radius: 10px; padding: 8px 18px; display: inline-block; letter-spacing: 0.05em; margin: 12px 0 0; }
+        .card-body { background: #fff; border-radius: 0 0 24px 24px; padding: 32px 40px; box-shadow: 0 8px 32px rgba(0,0,0,.06); }
+        .info-section-title { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #94a3b8; margin: 0 0 16px; display: flex; align-items: center; gap: 8px; }
+        .info-section-title i { color: #F97316; }
+        .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 28px; }
+        .info-item { background: #f8fafc; border-radius: 10px; padding: 12px 16px; }
+        .info-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: #94a3b8; display: block; margin-bottom: 4px; }
+        .info-value { font-size: 0.9rem; font-weight: 600; color: #0F172A; }
+        .info-value.orange { color: #F97316; }
+        .products-table-wrap { border: 1px solid #f1f5f9; border-radius: 14px; overflow: hidden; margin-bottom: 28px; }
+        .products-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .products-table th { background: #f8fafc; color: #64748b; font-weight: 600; padding: 12px 16px; text-align: left; }
+        .products-table th.tr { text-align: right; }
+        .products-table td { padding: 12px 16px; border-top: 1px solid #f1f5f9; color: #0F172A; vertical-align: middle; }
+        .products-table td.tr { text-align: right; }
+        .total-bar { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: #0F172A; color: #fff; font-weight: 700; }
+        .total-bar .tv { color: #F97316; font-size: 1.1rem; }
+        .btn-group { display: flex; gap: 12px; flex-wrap: wrap; }
+        .btn-res { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 26px; border-radius: 50px; font-size: 0.92rem; font-weight: 700; text-decoration: none; transition: all 0.2s; font-family: 'Poppins', sans-serif; border: none; cursor: pointer; }
+        .btn-dark { background: #0F172A; color: #fff; }
+        .btn-dark:hover { background: #1e293b; transform: translateY(-2px); }
+        .btn-wa { background: #25D366; color: #fff; flex: 1; }
+        .btn-wa:hover { background: #1aad54; transform: translateY(-2px); }
+        .btn-cat { background: #f1f5f9; color: #0F172A; }
+        .btn-cat:hover { background: #e2e8f0; transform: translateY(-2px); }
+        .error-card { background: #fff; border-radius: 24px; padding: 70px 40px; text-align: center; box-shadow: 0 8px 32px rgba(0,0,0,.06); }
+        .review-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 10000; opacity: 0; visibility: hidden; transition: .3s; }
+        .review-overlay.show { opacity: 1; visibility: visible; }
+        .review-modal { background: #fff; border-radius: 24px; padding: 36px 32px; width: 90%; max-width: 440px; text-align: center; position: relative; transform: translateY(20px); transition: .3s; box-shadow: 0 20px 50px rgba(0,0,0,.2); }
+        .review-overlay.show .review-modal { transform: translateY(0); }
+        .review-close { position: absolute; top: 14px; right: 18px; background: none; border: none; font-size: 1.5rem; color: #94a3b8; cursor: pointer; }
+        .stars-row { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .star-btn { background: none; border: none; font-size: 2.4rem; color: #cbd5e1; cursor: pointer; transition: .2s; }
+        .star-btn:hover, .star-btn.sel { color: #f59e0b; }
+        .review-textarea { width: 100%; border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px; font-family: inherit; margin-bottom: 16px; resize: none; outline: none; font-size: 0.9rem; }
+        .review-textarea:focus { border-color: #F97316; }
+        .review-submit { background: #F97316; color: #fff; border: none; padding: 13px 30px; border-radius: 50px; font-weight: 700; cursor: pointer; width: 100%; font-size: 1rem; font-family: inherit; }
+        .review-submit:hover { background: #ea580c; }
+        @media (max-width: 560px) {
+            .info-grid { grid-template-columns: 1fr; }
+            .stepper-wrap, .card-body, .payment-box { padding: 20px; }
+            .status-banner { padding: 28px 20px 22px; }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- ================= HEADER ================= -->
     <header class="header scrolled header-static">
         <div class="container navbar">
             <a href="../index.html" class="logo" aria-label="FOURZA SAS - Inicio">
-                <img src="../img/logos/Logofourza.png" alt="FOURZA SAS - Comercializadora" class="logo-img">
+                <img src="../img/logos/Logofourza.png" alt="FOURZA SAS" class="logo-img">
             </a>
             <nav class="nav-menu">
                 <a href="../index.html#inicio">Inicio</a>
                 <a href="../index.html#nosotros">Nosotros</a>
-                <a href="index.html" style="color: var(--secondary); font-weight: 700;">Catálogo</a>
+                <a href="index.html" style="color: var(--secondary); font-weight: 700;">Catalogo</a>
                 <a href="../index.html#beneficios">Beneficios</a>
                 <a href="../index.html#contacto">Contacto</a>
             </nav>
         </div>
     </header>
 
-    <!-- ================= RESULT CARD ================= -->
-    <main class="result-container">
-        
-        <div class="result-card" id="result-card-content">
-            
-            <!-- Loading view by default -->
-            <div class="loading-wrapper" id="loading-view">
-                <div class="spinner-res"></div>
-                <h2 class="result-title">Cargando Pedido...</h2>
-                <p class="result-msg">Estamos consultando el resumen de tu pedido.</p>
-            </div>
-
-            <!-- Content view (will be generated by JS) -->
-            <div id="status-view" style="display: none;">
-                <!-- Icon and Title -->
-                <div id="status-header"></div>
-                
-                <!-- Main Message -->
-                <p class="result-msg" id="status-message"></p>
-
-                <!-- Order Details -->
-                <div class="details-section">
-                    <h3 class="details-title"><i class="fas fa-file-invoice"></i> Resumen de tu Pedido</h3>
-                    
-                    <div class="info-grid">
-                        <div class="info-item">
-                            <strong>Referencia del Pedido</strong>
-                            <span id="info-referencia">-</span>
-                        </div>
-                        <div class="info-item" id="item-payment-ref">
-                            <strong>Referencia de Pago</strong>
-                            <span id="info-payment-ref">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Método de Pago</strong>
-                            <span id="info-metodo">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Fecha y Hora</strong>
-                            <span id="info-fecha">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Cliente</strong>
-                            <span id="info-cliente">-</span>
-                        </div>
-                        <div class="info-item">
-                            <strong>Dirección de Envío</strong>
-                            <span id="info-direccion">-</span>
-                        </div>
-                    </div>
-
-                    <!-- Products Table -->
-                    <div class="products-table-wrapper">
-                        <table class="products-table">
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th class="text-right">Cant.</th>
-                                    <th class="text-right">Unitario</th>
-                                    <th class="text-right">Subtotal</th>
-                                </tr>
-                            </thead>
-                            <tbody id="products-list-rows">
-                                <!-- JS insert rows here -->
-                            </tbody>
-                        </table>
-                        <div class="total-row-display">
-                            <span>Total Pedido</span>
-                            <span class="total-value" id="info-total">$0 COP</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Buttons -->
-                <div class="btn-group">
-                    <a href="index.html" class="btn-res btn-primary-res">
-                        <i class="fas fa-arrow-left"></i> Volver al Catálogo
-                    </a>
-                    <a id="btn-whatsapp-support" href="#" target="_blank" class="btn-res btn-wa-res">
-                        <i class="fab fa-whatsapp"></i> ¿Necesitas ayuda?
-                    </a>
-                </div>
-            </div>
-
-            <!-- Error view -->
-            <div id="error-view" style="display: none;">
-                <span class="status-icon error"><i class="fas fa-circle-exclamation"></i></span>
-                <h2 class="result-title">Error al consultar el pedido</h2>
-                <p class="result-msg" id="error-msg-text">No pudimos cargar los detalles de este pedido o la referencia es inválida.</p>
-                <div class="btn-group">
-                    <a href="index.html" class="btn-res btn-primary-res">
-                        <i class="fas fa-arrow-left"></i> Volver al Catálogo
-                    </a>
-                </div>
-            </div>
-
+    <main class="res-page">
+        <div class="loading-card" id="loading-view">
+            <div class="spin-orange"></div>
+            <h2 style="font-size:1.4rem;font-weight:700;color:#0F172A;margin-bottom:8px;">Cargando tu pedido...</h2>
+            <p style="color:#64748b;font-size:0.95rem;">Estamos consultando el resumen de tu pedido.</p>
         </div>
 
+        <div id="status-view" style="display:none; border-radius:24px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,.07);">
+            <div class="status-banner" id="status-banner">
+                <i class="status-ico" id="status-ico"></i>
+                <h1 class="status-title" id="status-title"></h1>
+                <p class="status-msg" id="status-msg"></p>
+            </div>
+
+            <div class="stepper-wrap">
+                <div class="stepper" id="order-stepper">
+                    <div class="stepper-line-fill" id="stepper-fill" style="width:0%"></div>
+                    <div class="step" id="step-1">
+                        <div class="step-dot"><i class="fas fa-file-pen"></i></div>
+                        <span class="step-label">Pedido<br>Registrado</span>
+                    </div>
+                    <div class="step" id="step-2">
+                        <div class="step-dot"><i class="fas fa-credit-card"></i></div>
+                        <span class="step-label">Pago<br>Verificado</span>
+                    </div>
+                    <div class="step" id="step-3">
+                        <div class="step-dot"><i class="fas fa-box"></i></div>
+                        <span class="step-label">En<br>Preparacion</span>
+                    </div>
+                    <div class="step" id="step-4">
+                        <div class="step-dot"><i class="fas fa-truck"></i></div>
+                        <span class="step-label">Enviado<br>/ Listo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="payment-box" id="payment-instructions-section" style="display:none;">
+                <div class="payment-box-inner">
+                    <p class="payment-box-title">
+                        <i class="fas fa-triangle-exclamation"></i>
+                        Accion requerida: Realiza tu pago para confirmar el pedido
+                    </p>
+                    <ul class="payment-steps-list">
+                        <li>
+                            <span class="step-num">1</span>
+                            <span>Transfiere el valor total mediante <strong id="pay-method-label">Nequi</strong> al numero:</span>
+                        </li>
+                    </ul>
+                    <div style="text-align:center;">
+                        <span class="payment-number-highlight">+57 322 819 4061</span>
+                    </div>
+                    <ul class="payment-steps-list" style="margin-top:14px;">
+                        <li>
+                            <span class="step-num">2</span>
+                            <span>Toma un pantallazo del comprobante y envialo por WhatsApp usando el boton de abajo.</span>
+                        </li>
+                        <li>
+                            <span class="step-num">3</span>
+                            <span>Una vez verificado el pago, comenzamos a preparar y despachar tu pedido.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <p class="info-section-title"><i class="fas fa-receipt"></i> Resumen del Pedido</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="info-label">Referencia</span>
+                        <span class="info-value orange" id="info-ref">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Fecha</span>
+                        <span class="info-value" id="info-fecha">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cliente</span>
+                        <span class="info-value" id="info-cliente">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Telefono</span>
+                        <span class="info-value" id="info-tel">-</span>
+                    </div>
+                    <div class="info-item" style="grid-column: 1 / -1;">
+                        <span class="info-label">Direccion de Envio</span>
+                        <span class="info-value" id="info-dir">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Metodo de Pago</span>
+                        <span class="info-value" id="info-metodo">-</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Estado</span>
+                        <span class="info-value" id="info-estado">-</span>
+                    </div>
+                </div>
+
+                <p class="info-section-title"><i class="fas fa-bag-shopping"></i> Productos del Pedido</p>
+                <div class="products-table-wrap">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th class="tr">Cant.</th>
+                                <th class="tr">Unitario</th>
+                                <th class="tr">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-tbody"></tbody>
+                    </table>
+                    <div class="total-bar">
+                        <span>Total Pedido</span>
+                        <span class="tv" id="info-total">$0 COP</span>
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <a href="index.html" class="btn-res btn-cat"><i class="fas fa-arrow-left"></i> Volver al Catalogo</a>
+                    <a id="btn-wa" href="#" target="_blank" class="btn-res btn-wa">
+                        <i class="fab fa-whatsapp"></i> <span id="btn-wa-label">Enviar Comprobante</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="error-card" id="error-view" style="display:none;">
+            <span style="font-size:4rem; color:#94a3b8; margin-bottom:20px; display:block;"><i class="fas fa-circle-exclamation"></i></span>
+            <h2 style="font-size:1.6rem;font-weight:700;color:#0F172A;margin-bottom:10px;">No encontramos tu pedido</h2>
+            <p style="color:#64748b;margin-bottom:30px;" id="error-msg">No pudimos cargar los detalles. La referencia puede ser invalida.</p>
+            <div class="btn-group" style="justify-content:center;">
+                <a href="index.html" class="btn-res btn-dark"><i class="fas fa-arrow-left"></i> Volver al Catalogo</a>
+                <a href="https://wa.me/573228194061" target="_blank" class="btn-res btn-wa"><i class="fab fa-whatsapp"></i> Contactar Soporte</a>
+            </div>
+        </div>
     </main>
 
-    <!-- ================= FOOTER ================= -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-bottom" style="border-top: none; padding-top: 0; margin-top: 0; text-align: center;">
-                © 2026 FOURZA | Todos los derechos reservados
+            <div class="footer-bottom" style="border-top:none;padding-top:0;text-align:center;">
+                (c) 2026 FOURZA | Todos los derechos reservados
             </div>
         </div>
     </footer>
 
-    <!-- JS Logic to query the order status -->
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const transactionId = urlParams.get('id'); // Compatibilidad con enlaces anteriores
-            const referenceId = urlParams.get('ref'); // Opcional: referencia directa
-
-            const loadingView = document.getElementById('loading-view');
-            const statusView = document.getElementById('status-view');
-            const errorView = document.getElementById('error-view');
-
-            if (!transactionId && !referenceId) {
-                showError('No se proporcionó ningún identificador de transacción o referencia.');
-                return;
-            }
-
-            try {
-                let orderData = null;
-
-                if (transactionId) {
-                    // Compatibilidad con pedidos anteriores creados con pasarela
-                    const res = await fetch(`/api/pedido/sync/${transactionId}`);
-                    if (res.ok) {
-                        orderData = await res.json();
-                    } else {
-                        throw new Error('No se pudo verificar la transacción.');
-                    }
-                } else if (referenceId) {
-                    // Consultar pedido directamente por referencia local
-                    const res = await fetch(`/api/pedido/${referenceId}`);
-                    if (res.ok) {
-                        orderData = await res.json();
-                    } else {
-                        throw new Error('Pedido no encontrado en nuestro sistema.');
-                    }
-                }
-
-                if (orderData) {
-                    displayOrderResult(orderData);
-                    // Mostrar modal de reseña solo en compras exitosas/pendientes
-                    if (orderData.estado === 'aprobado' || orderData.estado === 'pendiente') {
-                        setTimeout(() => {
-                            abrirModalResena(orderData.referencia, orderData.nombre);
-                        }, 2500);
-                    }
-                } else {
-                    showError('No se pudieron obtener los detalles del pedido.');
-                }
-
-            } catch (err) {
-                console.error(err);
-                showError(err.message);
-            }
-
-            function showError(msg) {
-                loadingView.style.display = 'none';
-                errorView.style.display = 'block';
-                document.getElementById('error-msg-text').textContent = msg;
-            }
-
-            function displayOrderResult(order) {
-                loadingView.style.display = 'none';
-                statusView.style.display = 'block';
-
-                const headerDiv = document.getElementById('status-header');
-                const messageP = document.getElementById('status-message');
-
-                // Render based on state
-                // aprobado, rechazado, pendiente, error, anulado
-                let iconHtml = '';
-                let titleText = '';
-                let messageText = '';
-
-                switch (order.estado) {
-                    case 'aprobado':
-                        iconHtml = '<span class="status-icon approved"><i class="fas fa-circle-check"></i></span>';
-                        titleText = 'Pago Confirmado';
-                        messageText = `Muchas gracias, ${order.nombre}. Tu pago de <strong>$${order.monto.toLocaleString('es-CO')} COP</strong> fue confirmado. Tu pedido ya esta siendo preparado para entrega.`;
-                        break;
-                    case 'rechazado':
-                        iconHtml = '<span class="status-icon declined"><i class="fas fa-circle-xmark"></i></span>';
-                        titleText = 'Pago Rechazado ❌';
-                        messageText = `Lo sentimos. La transacción ha sido rechazada o cancelada por la entidad financiera. Por favor verifica los datos e intenta pagar nuevamente desde el catálogo.`;
-                        break;
-                    case 'pendiente':
-                        iconHtml = '<span class="status-icon pending"><i class="fas fa-clock"></i></span>';
-                        titleText = '¡Pedido Registrado con Éxito!';
-                        messageText = `Hola ${order.nombre}, tu pedido por <strong>$${order.monto.toLocaleString('es-CO')} COP</strong> está casi listo. Hemos enviado el resumen a tu correo electrónico.<br><br><strong>Último paso:</strong> Realiza la transferencia usando <strong>${formatPaymentMethod(order.metodo_pago)}</strong> y <strong>envíanos tu comprobante al WhatsApp</strong>. Una vez lo verifiquemos, tu pedido será despachado.`;
-                        break;
-                    case 'anulado':
-                        iconHtml = '<span class="status-icon error"><i class="fas fa-ban"></i></span>';
-                        titleText = 'Transacción Anulada';
-                        messageText = `La transacción fue anulada antes de finalizar. Si crees que se trata de un error, por favor comunícate con soporte.`;
-                        break;
-                    default: // error, etc.
-                        iconHtml = '<span class="status-icon error"><i class="fas fa-circle-exclamation"></i></span>';
-                        titleText = 'Error en el Pago';
-                        messageText = `Ha ocurrido un error al procesar el pago. Te recomendamos verificar si el cobro se realizó y consultar con un asesor de ventas de FOURZA.`;
-                        break;
-                }
-
-                headerDiv.innerHTML = iconHtml + `<h2 class="result-title">${titleText}</h2>`;
-                messageP.innerHTML = messageText;
-
-                // Fill details fields
-                document.getElementById('info-referencia').textContent = order.referencia;
-                
-                document.getElementById('info-payment-ref').textContent = order.referencia;
-
-                document.getElementById('info-metodo').textContent = formatPaymentMethod(order.metodo_pago);
-                
-                const fecha = new Date(order.fecha);
-                document.getElementById('info-fecha').textContent = fecha.toLocaleString('es-CO');
-                document.getElementById('info-cliente').textContent = `${order.nombre} (${order.telefono || 'Sin teléfono'})`;
-                document.getElementById('info-direccion').textContent = order.direccion;
-                document.getElementById('info-total').textContent = `$${order.monto.toLocaleString('es-CO')} COP`;
-
-                // Render products
-                const tbody = document.getElementById('products-list-rows');
-                tbody.innerHTML = '';
-                
-                try {
-                    const items = JSON.parse(order.productos);
-                    items.forEach(item => {
-                        const tr = document.createElement('tr');
-                        
-                        const priceNum = typeof item.precio === 'string' 
-                            ? parseFloat(item.precio.replace(/[^0-9]/g, '')) 
-                            : parseFloat(item.precio) || 0;
-                        const subTotal = priceNum * (item.cantidad || 1);
-
-                        tr.innerHTML = `
-                            <td><strong>${item.titulo}</strong></td>
-                            <td class="text-right">${item.cantidad || 1}</td>
-                            <td class="text-right">$${priceNum.toLocaleString('es-CO')} COP</td>
-                            <td class="text-right"><strong>$${subTotal.toLocaleString('es-CO')} COP</strong></td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
-                } catch (e) {
-                    console.error('Error parseando productos:', e);
-                    tbody.innerHTML = '<tr><td colspan="4">Error al cargar productos</td></tr>';
-                }
-
-                // WhatsApp Support button setup
-                let waText = encodeURIComponent(`Hola FOURZA, tengo una consulta sobre mi pedido con Referencia: ${order.referencia}`);
-                let waBtnLabel = '<i class="fab fa-whatsapp"></i> ¿Necesitas ayuda?';
-
-                if (order.estado === 'pendiente') {
-                    waText = encodeURIComponent(`Hola FOURZA, acabo de hacer el pedido ${order.referencia} por un valor de $${order.monto.toLocaleString('es-CO')} COP. Aquí envío el comprobante de pago:`);
-                    waBtnLabel = '<i class="fab fa-whatsapp"></i> Enviar Comprobante de Pago';
-                }
-
-                const waBtn = document.getElementById('btn-whatsapp-support');
-                waBtn.href = `https://wa.me/573228194061?text=${waText}`;
-                waBtn.innerHTML = waBtnLabel;
-            }
-
-            function formatPaymentMethod(method) {
-                const labels = {
-                    nequi: 'Nequi',
-                    daviplata: 'Daviplata',
-                    bancolombia: 'Bancolombia'
-                };
-                return labels[String(method || '').toLowerCase()] || 'Pago manual';
-            }
-        });
-
-        // ================= SISTEMA DE RESEÑAS =================
-        let referenciaActual = '';
-        let nombreClienteActual = '';
-        let calificacionSeleccionada = 0;
-
-        function abrirModalResena(referencia, nombre) {
-            referenciaActual = referencia;
-            nombreClienteActual = nombre;
-            document.getElementById('rating-modal').classList.add('show');
-        }
-
-        function cerrarModalResena() {
-            document.getElementById('rating-modal').classList.remove('show');
-        }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        const stars = document.querySelectorAll('.star-btn');
-        stars.forEach(star => {
-            star.addEventListener('click', (e) => {
-                calificacionSeleccionada = parseInt(e.currentTarget.dataset.value);
-                stars.forEach(s => {
-                    const val = parseInt(s.dataset.value);
-                    if (val <= calificacionSeleccionada) {
-                        s.classList.add('selected');
-                        s.innerHTML = '<i class="fas fa-star"></i>';
-                    } else {
-                        s.classList.remove('selected');
-                        s.innerHTML = '<i class="far fa-star"></i>';
-                    }
-                });
-            });
-        });
-
-        document.getElementById('rating-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (calificacionSeleccionada === 0) {
-                alert('Por favor selecciona una calificación en estrellas.');
-                return;
-            }
-            const comentario = document.getElementById('rating-comment').value;
-            const btn = document.getElementById('rating-submit-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-            btn.disabled = true;
-
-            try {
-                const res = await fetch('/api/resenas', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        referencia_pedido: referenciaActual,
-                        nombre_cliente: nombreClienteActual,
-                        calificacion: calificacionSeleccionada,
-                        comentario: comentario
-                    })
-                });
-                if (res.ok) {
-                    cerrarModalResena();
-                    const thanksDiv = document.createElement('div');
-                    thanksDiv.style.position = 'fixed';
-                    thanksDiv.style.top = '20px';
-                    thanksDiv.style.right = '20px';
-                    thanksDiv.style.background = '#10B981';
-                    thanksDiv.style.color = '#fff';
-                    thanksDiv.style.padding = '15px 25px';
-                    thanksDiv.style.borderRadius = '8px';
-                    thanksDiv.style.zIndex = '99999';
-                    thanksDiv.innerHTML = '<i class="fas fa-check-circle"></i> ¡Gracias por tu calificación!';
-                    document.body.appendChild(thanksDiv);
-                    setTimeout(() => thanksDiv.remove(), 4000);
-                } else {
-                    alert('Hubo un error al enviar tu calificación.');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Error de conexión al enviar calificación.');
-            } finally {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        });
-    });
-    </script>
-
-    <!-- MODAL DE RESEÑA -->
-    <style>
-        .rating-modal-overlay {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.3s ease;
-            backdrop-filter: blur(4px);
-        }
-        .rating-modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .rating-modal-content {
-            background: white;
-            width: 90%;
-            max-width: 450px;
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            position: relative;
-            transform: translateY(20px);
-            transition: 0.3s ease;
-        }
-        .rating-modal-overlay.show .rating-modal-content {
-            transform: translateY(0);
-        }
-        .rating-modal-close {
-            position: absolute;
-            top: 15px; right: 15px;
-            background: none; border: none;
-            font-size: 1.5rem;
-            color: #94a3b8;
-            cursor: pointer;
-        }
-        .rating-stars {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-            flex-direction: row-reverse; /* Para hover trick */
-        }
-        .star-btn {
-            background: none; border: none;
-            font-size: 2.5rem;
-            color: #cbd5e1;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .star-btn:hover, .star-btn:hover ~ .star-btn {
-            color: #fbbf24;
-        }
-        .star-btn.selected {
-            color: #f59e0b;
-        }
-        .rating-textarea {
-            width: 100%;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 12px;
-            font-family: inherit;
-            margin-bottom: 20px;
-            resize: none;
-            outline: none;
-        }
-        .rating-textarea:focus {
-            border-color: #F97316;
-        }
-        .rating-submit {
-            background: #F97316;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            font-size: 1rem;
-        }
-        .rating-submit:hover {
-            background: #ea580c;
-        }
-    </style>
-    <div class="rating-modal-overlay" id="rating-modal">
-        <div class="rating-modal-content">
-            <button class="rating-modal-close" onclick="cerrarModalResena()">&times;</button>
-            <h3 style="margin-bottom: 10px; color: #0F172A;">¿Qué tal tu experiencia?</h3>
-            <p style="color: #64748b; font-size: 0.9rem;">Califica nuestro servicio y ayúdanos a mejorar.</p>
-            <form id="rating-form">
-                <div class="rating-stars">
-                    <!-- Reverse order for CSS hover trick, JS will handle values -->
-                    <button type="button" class="star-btn" data-value="5"><i class="far fa-star"></i></button>
-                    <button type="button" class="star-btn" data-value="4"><i class="far fa-star"></i></button>
-                    <button type="button" class="star-btn" data-value="3"><i class="far fa-star"></i></button>
-                    <button type="button" class="star-btn" data-value="2"><i class="far fa-star"></i></button>
-                    <button type="button" class="star-btn" data-value="1"><i class="far fa-star"></i></button>
+    <div class="review-overlay" id="review-overlay">
+        <div class="review-modal">
+            <button class="review-close" onclick="cerrarReview()">&times;</button>
+            <span style="font-size:2.5rem;display:block;margin-bottom:8px;">&#11088;</span>
+            <h3 style="font-size:1.2rem;font-weight:800;color:#0F172A;margin-bottom:6px;">Que tal tu experiencia?</h3>
+            <p style="color:#64748b;font-size:0.88rem;margin-bottom:4px;">Califica nuestro servicio y ayudanos a mejorar.</p>
+            <form id="review-form">
+                <div class="stars-row" id="stars-row">
+                    <button type="button" class="star-btn" data-v="1"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-v="2"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-v="3"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-v="4"><i class="far fa-star"></i></button>
+                    <button type="button" class="star-btn" data-v="5"><i class="far fa-star"></i></button>
                 </div>
-                <textarea id="rating-comment" class="rating-textarea" rows="3" placeholder="Comentarios adicionales (Opcional)"></textarea>
-                <button type="submit" class="rating-submit" id="rating-submit-btn">Enviar Calificación</button>
+                <textarea id="review-comment" class="review-textarea" rows="3" placeholder="Comentarios adicionales (opcional)"></textarea>
+                <button type="submit" class="review-submit" id="review-submit-btn">
+                    <i class="fas fa-paper-plane"></i> Enviar Calificacion
+                </button>
             </form>
         </div>
     </div>
-</body>
 
+    <script>
+        var _refActual = '', _nombreActual = '', _calif = 0;
+        var fmt = function(n) { return new Intl.NumberFormat('es-CO').format(n || 0); };
+        var fmtPay = function(m) { var l={'nequi':'Nequi','daviplata':'Daviplata','bancolombia':'Bancolombia'}; return l[String(m||'').toLowerCase()] || 'Pago manual'; };
+
+        function setStep(estado) {
+            var steps = ['step-1','step-2','step-3','step-4'];
+            var fills = { pendiente: '12%', aprobado: '45%', preparando: '78%', enviado: '100%' };
+            var activeStep = { pendiente: 0, aprobado: 1, preparando: 2, enviado: 3 }[estado];
+            if (activeStep === undefined) activeStep = 0;
+            steps.forEach(function(id, i) {
+                var el = document.getElementById(id);
+                if (!el) return;
+                el.className = 'step' + (i < activeStep ? ' done' : i === activeStep ? ' active' : '');
+            });
+            var fill = document.getElementById('stepper-fill');
+            if (fill) fill.style.width = fills[estado] || '12%';
+        }
+
+        function showStatus(order) {
+            document.getElementById('loading-view').style.display = 'none';
+            document.getElementById('status-view').style.display = 'block';
+            var estado = (order.estado || 'pendiente').toLowerCase();
+            var banner = document.getElementById('status-banner');
+            var ico    = document.getElementById('status-ico');
+            var title  = document.getElementById('status-title');
+            var msg    = document.getElementById('status-msg');
+            var conf = {
+                pendiente: { cls:'pending', icon:'fas fa-clock', title:'Pedido Registrado con Exito!', msg:'Hola <strong>'+order.nombre+'</strong>, tu pedido por <strong>$'+fmt(order.monto)+' COP</strong> quedo registrado. Solo falta que realices el pago y nos envies el comprobante.' },
+                aprobado:  { cls:'approved', icon:'fas fa-circle-check', title:'Pago Confirmado!', msg:'Muchas gracias, <strong>'+order.nombre+'</strong>. Tu pago de <strong>$'+fmt(order.monto)+' COP</strong> fue verificado. Nuestro equipo ya esta preparando tu pedido.' },
+                rechazado: { cls:'declined', icon:'fas fa-circle-xmark', title:'Pedido Cancelado', msg:'Lo sentimos. El pedido fue cancelado o rechazado. Contactanos por WhatsApp para mas informacion.' }
+            };
+            var c = conf[estado] || conf.pendiente;
+            banner.className = 'status-banner ' + c.cls;
+            ico.className = 'status-ico ' + c.cls;
+            ico.innerHTML = '<i class="'+c.icon+'"></i>';
+            title.textContent = c.title;
+            msg.innerHTML = c.msg;
+            setStep(estado);
+            if (estado === 'pendiente') {
+                document.getElementById('payment-instructions-section').style.display = 'block';
+                document.getElementById('pay-method-label').textContent = fmtPay(order.metodo_pago);
+            }
+            document.getElementById('info-ref').textContent     = order.referencia;
+            document.getElementById('info-fecha').textContent   = new Date(order.fecha).toLocaleString('es-CO');
+            document.getElementById('info-cliente').textContent = order.nombre;
+            document.getElementById('info-tel').textContent     = order.telefono || '-';
+            document.getElementById('info-dir').textContent     = order.direccion;
+            document.getElementById('info-metodo').textContent  = fmtPay(order.metodo_pago);
+            var estadoLabel = { pendiente:'Pendiente de pago', aprobado:'Aprobado', rechazado:'Cancelado', enviado:'Enviado' };
+            document.getElementById('info-estado').textContent  = estadoLabel[estado] || estado;
+            document.getElementById('info-total').textContent   = '$'+fmt(order.monto)+' COP';
+            var tbody = document.getElementById('products-tbody');
+            try {
+                var items = JSON.parse(order.productos || '[]');
+                tbody.innerHTML = items.map(function(item) {
+                    var pn = parseInt(String(item.precio||0).replace(/[^0-9]/g,'')) || 0;
+                    var qty = parseInt(item.cantidad) || 1;
+                    var sub = pn * qty;
+                    return '<tr><td><strong>'+item.titulo+'</strong></td><td class="tr">'+qty+'</td><td class="tr">$'+fmt(pn)+'</td><td class="tr"><strong>$'+fmt(sub)+'</strong></td></tr>';
+                }).join('');
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="4" style="color:#ef4444;">Error al cargar productos</td></tr>'; }
+            var waBtn   = document.getElementById('btn-wa');
+            var waLabel = document.getElementById('btn-wa-label');
+            if (estado === 'pendiente') {
+                waBtn.href = 'https://wa.me/573228194061?text='+encodeURIComponent('Hola FOURZA, realice el pedido '+order.referencia+' por $'+fmt(order.monto)+' COP. Adjunto comprobante de pago via '+fmtPay(order.metodo_pago)+':');
+                waLabel.textContent = 'Enviar Comprobante de Pago';
+            } else {
+                waBtn.href = 'https://wa.me/573228194061?text='+encodeURIComponent('Hola FOURZA, tengo una consulta sobre mi pedido '+order.referencia+'.');
+                waLabel.textContent = 'Necesitas ayuda?';
+            }
+            if (estado === 'aprobado' || estado === 'pendiente') {
+                _refActual = order.referencia; _nombreActual = order.nombre;
+                setTimeout(function() { document.getElementById('review-overlay').classList.add('show'); }, 3500);
+            }
+        }
+
+        function showError(msg) {
+            document.getElementById('loading-view').style.display = 'none';
+            document.getElementById('error-view').style.display   = 'block';
+            if (msg) document.getElementById('error-msg').textContent = msg;
+        }
+
+        window.cerrarReview = function() { document.getElementById('review-overlay').classList.remove('show'); };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var stars = document.querySelectorAll('.star-btn');
+            stars.forEach(function(s) {
+                s.addEventListener('click', function() {
+                    _calif = parseInt(s.dataset.v);
+                    stars.forEach(function(st) {
+                        var v = parseInt(st.dataset.v);
+                        st.className = 'star-btn' + (v <= _calif ? ' sel' : '');
+                        st.innerHTML = v <= _calif ? '<i class="fas fa-star"></i>' : '<i class="far fa-star"></i>';
+                    });
+                });
+            });
+
+            document.getElementById('review-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!_calif) { alert('Selecciona una calificacion.'); return; }
+                var btn = document.getElementById('review-submit-btn');
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+                btn.disabled = true;
+                fetch('/api/resenas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ referencia_pedido: _refActual, nombre_cliente: _nombreActual, calificacion: _calif, comentario: document.getElementById('review-comment').value })
+                }).then(function(res) {
+                    cerrarReview();
+                    if (res.ok) {
+                        var t = document.createElement('div');
+                        Object.assign(t.style, { position:'fixed', top:'20px', right:'20px', background:'#10B981', color:'#fff', padding:'14px 22px', borderRadius:'12px', zIndex:'99999', fontFamily:'Poppins,sans-serif', fontWeight:'600', fontSize:'0.95rem' });
+                        t.innerHTML = '<i class="fas fa-check-circle"></i> Gracias por tu calificacion!';
+                        document.body.appendChild(t);
+                        setTimeout(function() { t.remove(); }, 4000);
+                    }
+                }).catch(function(err) { console.error(err); })
+                .finally(function() { btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Calificacion'; btn.disabled = false; });
+            });
+
+            var params = new URLSearchParams(location.search);
+            var ref    = params.get('ref');
+            var txId   = params.get('id');
+            if (!ref && !txId) { showError('No se encontro referencia de pedido.'); return; }
+
+            var endpoint = ref ? '/api/pedido/'+ref : '/api/pedido/sync/'+txId;
+            fetch(endpoint).then(function(r) {
+                if (!r.ok) throw new Error('Pedido no encontrado.');
+                return r.json();
+            }).then(function(data) {
+                if (data) showStatus(data);
+                else showError('No se pudieron obtener los detalles del pedido.');
+            }).catch(function(err) { showError(err.message); });
+        });
+    </script>
+</body>
 </html>

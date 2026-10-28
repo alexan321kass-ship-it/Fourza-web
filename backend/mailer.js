@@ -120,7 +120,7 @@ async function enviarConfirmacionFeedbackCliente(feedback) {
                 </div>
             `
         });
-        console.log("Correo de confirmación enviado al cliente:", cotizacion.email);
+        console.log("Correo de confirmación enviado al cliente:", feedback.email);
     } catch (error) {
         console.error("Error enviando confirmación al cliente:", error);
     }
