@@ -141,11 +141,21 @@ const Cart = (() => {
 
     /* ------ Actualizar Badge del Ícono ------ */
     function updateBadge() {
-        const badge = document.getElementById('cart-badge');
-        if (!badge) return;
         const total = getTotalItems();
-        badge.textContent = total;
-        badge.style.display = total > 0 ? 'flex' : 'none';
+        document.querySelectorAll('.cart-badge, .cart-pill-badge, #cart-badge, #floating-mobile-cart-badge').forEach(badge => {
+            badge.textContent = total;
+            badge.style.display = total > 0 ? 'flex' : 'none';
+        });
+
+        // Actualizar barra flotante móvil
+        const mobileFloating = document.getElementById('floating-mobile-cart');
+        if (mobileFloating) {
+            if (total > 0) {
+                mobileFloating.classList.add('has-items');
+            } else {
+                mobileFloating.classList.remove('has-items');
+            }
+        }
     }
 
     /* ------ Helper para parsear precios de texto a números ------ */

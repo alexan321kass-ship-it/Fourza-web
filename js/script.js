@@ -447,8 +447,8 @@ if (slides.length > 0) {
    CATÁLOGO DINÁMICO (CMS) Y FILTROS
    ========================================== */
 
-const productsGrid = document.querySelector(".products-grid");
-const filterBtns = document.querySelectorAll(".filter-btn");
+const getProductsGrid = () => document.querySelector(".products-grid");
+let filterBtns = document.querySelectorAll(".filter-btn");
 
 // Mapa de imagen_url a sub-categoría para los nuevos filtros
 const subcatMap = {
@@ -486,9 +486,113 @@ async function fetchCategorias() {
     }
 }
 
+// Fallback robusto con productos reales de Fourza en caso de que el backend no responda
+const FALLBACK_PRODUCTOS = [
+    {
+        id: 3,
+        titulo: "Granola Especial Fourza",
+        descripcion: "Granola crocante con frutos secos, coco y miel seleccionada. Ideal para desayunos y meriendas saludables.",
+        categoria: "alimentos",
+        precio: "11.400",
+        variantes: JSON.stringify([{ nombre: '250 G', precio: '8.500' }, { nombre: '500 G', precio: '11.400' }, { nombre: '1000 G', precio: '21.000' }]),
+        imagen_url: "img/prod_alimentos.png"
+    },
+    {
+        id: 4,
+        titulo: "Granola Light Sin Azúcar Añadida",
+        descripcion: "Granola ligera con avena tostada y semillas nutritivas. Presentación 400g.",
+        categoria: "alimentos",
+        precio: "8.700",
+        imagen_url: "img/granola.svg"
+    },
+    {
+        id: 6,
+        titulo: "Granola Frutos Rojos Premium",
+        descripcion: "Granola adicionada con deliciosos arándanos y fresas deshidratadas. 450g.",
+        categoria: "alimentos",
+        precio: "11.400",
+        imagen_url: "img/granola.svg"
+    },
+    {
+        id: 7,
+        titulo: "Granola Frutos Secos & Almendras",
+        descripcion: "Granola premium con alta concentración de almendras, nueces y maní tostado. 450g.",
+        categoria: "alimentos",
+        precio: "11.400",
+        imagen_url: "img/prod_alimentos.png"
+    },
+    {
+        id: 8,
+        titulo: "Arroz Achocolatado Inflado",
+        descripcion: "Crujiente y nutritivo arroz tostado sabor a chocolate. Favorito en desayunos.",
+        categoria: "alimentos",
+        precio: "6.900",
+        variantes: JSON.stringify([{ nombre: '250 G', precio: '4.200' }, { nombre: '500 G', precio: '6.900' }]),
+        imagen_url: "img/cereal.svg"
+    },
+    {
+        id: 20,
+        titulo: "Avena en Hojuela Entera",
+        descripcion: "Avena 100% natural sin conservantes, rica en fibra y energía duradera.",
+        categoria: "alimentos",
+        precio: "5.500",
+        variantes: JSON.stringify([{ nombre: '250 G', precio: '3.200' }, { nombre: '500 G', precio: '5.500' }, { nombre: '1000 G', precio: '9.800' }]),
+        imagen_url: "img/cereal.svg"
+    },
+    {
+        id: 38,
+        titulo: "Caja de Cartón Corrugado Estándar",
+        descripcion: "Cajas de alta resistencia para embalaje seguro de despachos y mercancías.",
+        categoria: "embalaje",
+        precio: "3.200",
+        imagen_url: "img/prod_embalaje.png"
+    },
+    {
+        id: 39,
+        titulo: "Rollo de Vinipel Transparente 500m",
+        descripcion: "Película extensible de polietileno de alta adherencia para paletizado y protección.",
+        categoria: "embalaje",
+        precio: "28.500",
+        imagen_url: "img/vinipel.svg"
+    },
+    {
+        id: 40,
+        titulo: "Cinta de Embalaje Transparente 100m",
+        descripcion: "Cinta adhesiva de máxima fijación para sellado de cajas y paquetes.",
+        categoria: "embalaje",
+        precio: "4.800",
+        imagen_url: "img/cinta.svg"
+    },
+    {
+        id: 23,
+        titulo: "Harina de Trigo Especial Panadería",
+        descripcion: "Harina de alta fuerza y excelente rendimiento para masas, panes y pastelería.",
+        categoria: "panaderia",
+        precio: "14.200",
+        imagen_url: "img/panaderia.svg"
+    },
+    {
+        id: 32,
+        titulo: "Proteína Vegetal Texturizada",
+        descripcion: "Base nutritiva 100% vegetal para recetas saludables y menús vegetarianos.",
+        categoria: "vegetariana",
+        precio: "9.500",
+        imagen_url: "img/vegano.svg"
+    },
+    {
+        id: 41,
+        titulo: "Desengrasante y Limpiador Industrial",
+        descripcion: "Fórmula de alta concentración para superficies y plantas de producción de alimentos.",
+        categoria: "insumos",
+        precio: "32.000",
+        imagen_url: "img/prod_insumos.png"
+    }
+];
+
 function showSkeletons(count = 8) {
-    if (!productsGrid) return;
-    productsGrid.innerHTML = Array.from({ length: count }, () => `
+    const grid = getProductsGrid();
+    if (!grid) return;
+    grid.innerHTML = Array.from({ length: count }, () => `
             <div class="skeleton-card">
                 <div class="skeleton-img"></div>
                 <div class="skeleton-body">
@@ -507,71 +611,98 @@ async function fetchProductos() {
     try {
         const res = await fetch("/api/productos");
         if (res.ok) {
-            allProductos = await res.json();
-            renderProductos(allProductos);
+            const data = await res.json();
+            if (Array.isArray(data) && data.length > 0) {
+                allProductos = data;
+                renderProductos(allProductos);
+                return;
+            }
         }
+        allProductos = FALLBACK_PRODUCTOS;
+        renderProductos(allProductos);
     } catch (error) {
-        console.error("Error cargando productos:", error);
-        if (productsGrid) {
-            productsGrid.innerHTML = "<p style='text-align:center;padding:40px;color:#888;'>Error al cargar el catálogo. Asegúrate de que el servidor esté activo.</p>";
-        }
+        console.warn("Cargando catálogo local Fourza:", error);
+        allProductos = FALLBACK_PRODUCTOS;
+        renderProductos(allProductos);
     }
 }
 
 // Almacena productos globalmente para el modal
 let _allProductos = [];
 
+function resolverRutaImagen(url) {
+    if (!url) return 'img/prod_alimentos.png';
+    const isInCatalogo = window.location.pathname.includes('/catalogo/');
+    if (isInCatalogo && !url.startsWith('/') && !url.startsWith('http') && !url.startsWith('../')) {
+        return '../' + url;
+    }
+    return url;
+}
+
 function renderProductos(productos) {
-    if (!productsGrid) return;
+    const grid = getProductsGrid();
+    if (!grid) return;
     _allProductos = productos;
 
     if (productos.length === 0) {
-        productsGrid.innerHTML = "<p style='text-align:center;padding:60px;color:#888;grid-column:1/-1;'>No se encontraron productos.</p>";
+        grid.innerHTML = "<p style='text-align:center;padding:60px;color:#888;grid-column:1/-1;'>No se encontraron productos en esta sección.</p>";
         return;
     }
 
-    productsGrid.innerHTML = productos.map(p => {
+    grid.innerHTML = productos.map(p => {
         const subcat = subcatMap[p.imagen_url] || p.categoria;
 
         let variants = [];
-        try { if (p.variantes) variants = JSON.parse(p.variantes); } catch (e) { }
+        try { 
+            if (p.variantes) variants = typeof p.variantes === 'string' ? JSON.parse(p.variantes) : p.variantes; 
+        } catch (e) { }
 
         const hasVariants = variants && variants.length > 0;
 
-        // Calcular rango de precio
+        // Calcular rango de precio o precio unitario
         let precioDisplay = '';
         if (hasVariants) {
             const precios = variants.map(v => v.precio).filter(Boolean);
             if (precios.length > 1) {
-                precioDisplay = `${precios[0]} - ${precios[precios.length - 1]}`;
+                precioDisplay = `$${precios[0]} – $${precios[precios.length - 1]}`;
             } else if (precios.length === 1) {
-                precioDisplay = precios[0];
+                precioDisplay = `$${precios[0]}`;
             }
-        } else if (p.precio) {
-            precioDisplay = p.precio;
+        } else if (p.precio && p.precio !== 'Consultar') {
+            precioDisplay = p.precio.startsWith('$') ? p.precio : `$${p.precio}`;
         }
 
-        const catLabel = filterCatData[p.categoria] || p.categoria;
+        const catLabel = filterCatData[p.categoria] || (p.categoria ? p.categoria.toUpperCase() : 'FOURZA');
+        const imgSrc = resolverRutaImagen(p.imagen_url);
+
+        const btnLabel = (hasVariants && variants.length > 1)
+            ? '<i class="fas fa-sliders"></i> Elegir Presentación'
+            : '<i class="fas fa-bag-shopping"></i> Añadir al Carrito';
 
         return `
             <div class="product-card" 
-                data-category="${p.categoria}" 
+                data-category="${p.categoria || ''}" 
                 data-subcat="${subcat}" 
-                data-titulo="${p.titulo.toLowerCase()}"
+                data-titulo="${(p.titulo || '').toLowerCase()}"
                 onclick="abrirProductoModal(${p.id})"
                 role="button" tabindex="0"
                 aria-label="Ver detalle de ${p.titulo}">
                 <div class="product-card-img-wrap">
-                    <img src="${p.imagen_url}" alt="${p.titulo}" loading="lazy">
+                    <img src="${imgSrc}" alt="${p.titulo}" loading="lazy" onerror="this.onerror=null; this.src='img/prod_alimentos.png';">
                     <div class="product-card-overlay">
-                        <i class="fas fa-magnifying-glass-plus"></i>
+                        <span class="quick-view-badge"><i class="fas fa-eye"></i> Vista Rápida</span>
                     </div>
                     <span class="product-card-badge">${catLabel}</span>
                 </div>
                 <div class="product-info">
-                    <h3>${p.titulo}</h3>
-                    ${precioDisplay ? `<p class="product-card-price">${precioDisplay}</p>` : ''}
-                    <span class="product-card-cta">Ver producto <i class="fas fa-arrow-right"></i></span>
+                    <span class="product-card-cat-small">${catLabel}</span>
+                    <h3 class="product-card-title">${p.titulo}</h3>
+                    <div class="product-card-price-row">
+                        ${precioDisplay ? `<span class="product-card-price">${precioDisplay}</span>` : '<span class="product-card-price consult">Precio Mayorista</span>'}
+                    </div>
+                    <button class="btn-add-cart" onclick="handleCardAddToCart(event, ${p.id})" aria-label="Añadir ${p.titulo} al carrito">
+                        ${btnLabel}
+                    </button>
                 </div>
             </div>`;
     }).join('');
@@ -728,29 +859,107 @@ window.handleAddToCartModal = function (btn) {
     }, 1600);
 };
 
+window.handleCardAddToCart = function (e, id) {
+    if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+    const p = _allProductos.find(x => x.id === id);
+    if (!p) return;
+
+    let variants = [];
+    try { 
+        if (p.variantes) variants = typeof p.variantes === 'string' ? JSON.parse(p.variantes) : p.variantes; 
+    } catch (err) { }
+    const hasVariants = variants && variants.length > 0;
+
+    // Si tiene múltiples variantes (ej: 250g, 500g, 1000g), abrir modal para que elija la presentación
+    if (hasVariants && variants.length > 1) {
+        abrirProductoModal(id);
+        return;
+    }
+
+    let precio = p.precio || '';
+    let itemTitulo = p.titulo;
+    let itemId = p.id;
+    if (hasVariants && variants.length === 1) {
+        precio = variants[0].precio || precio;
+        itemTitulo = `${p.titulo} (${variants[0].nombre})`;
+        itemId = `${p.id}-${variants[0].nombre}`;
+    }
+
+    const item = {
+        id: itemId,
+        titulo: itemTitulo,
+        imagen_url: p.imagen_url,
+        categoria: p.categoria,
+        precio: precio
+    };
+
+    if (typeof Cart !== 'undefined') {
+        Cart.add(item);
+    }
+
+    // Feedback visual en el botón
+    const btn = e ? e.currentTarget : null;
+    if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> ¡Agregado!';
+        btn.classList.add('added');
+        setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.classList.remove('added');
+        }, 1400);
+    }
+};
+
+window.filterBySlug = function(slug) {
+    activeFilter = slug;
+    const storeSec = document.getElementById('tienda') || document.getElementById('productos');
+    if (storeSec) {
+        storeSec.scrollIntoView({ behavior: 'smooth' });
+    }
+    document.querySelectorAll(".filter-btn").forEach(b => {
+        if (b.getAttribute("data-filter") === slug) {
+            b.classList.add("active");
+        } else {
+            b.classList.remove("active");
+        }
+    });
+    document.querySelectorAll(".cat-pill").forEach(p => {
+        if (p.getAttribute("data-filter") === slug) {
+            p.classList.add("active");
+        } else {
+            p.classList.remove("active");
+        }
+    });
+    aplicarFiltros();
+};
+
 function aplicarFiltros() {
     const productCards = document.querySelectorAll(".product-card");
-    const searchTerm = (document.getElementById('catalog-search') ? document.getElementById('catalog-search').value.toLowerCase() : '');
+    const searchVal = document.getElementById('catalog-search')?.value || document.getElementById('header-search')?.value || '';
+    const searchTerm = searchVal.trim().toLowerCase();
 
     productCards.forEach(card => {
-        const cat = card.getAttribute("data-category");
-        const subcat = card.getAttribute("data-subcat");
+        const cat = card.getAttribute("data-category") || '';
+        const subcat = card.getAttribute("data-subcat") || '';
         const titulo = card.getAttribute("data-titulo") || '';
 
         let matchFilter = false;
         if (activeFilter === 'all') {
             matchFilter = true;
         } else if (activeFilter === 'vegano' || activeFilter === 'panaderia') {
-            matchFilter = (subcat === activeFilter);
+            matchFilter = (subcat === activeFilter || cat === activeFilter);
         } else {
-            matchFilter = (cat === activeFilter);
+            matchFilter = (cat.toLowerCase() === activeFilter.toLowerCase());
         }
 
-        const matchSearch = searchTerm === '' || titulo.includes(searchTerm);
+        const matchSearch = searchTerm === '' || titulo.includes(searchTerm) || cat.toLowerCase().includes(searchTerm);
 
         if (matchFilter && matchSearch) {
-            card.style.display = "block";
-            card.style.animation = "fadeIn 0.4s ease";
+            card.style.display = "flex";
+            card.style.animation = "fadeIn 0.3s ease";
         } else {
             card.style.display = "none";
         }
@@ -758,29 +967,36 @@ function aplicarFiltros() {
 }
 
 function iniciarFiltros() {
-    filterBtns.forEach(btn => {
-        // Evitar listeners duplicados
-        btn.replaceWith(btn.cloneNode(true));
-    });
-
     document.querySelectorAll(".filter-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.onclick = () => {
             document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
             btn.classList.add("active");
             activeFilter = btn.getAttribute("data-filter");
             aplicarFiltros();
-        });
+        };
     });
 }
 
 function iniciarBusqueda() {
-    const searchInput = document.getElementById('catalog-search');
-    if (!searchInput) return;
-    // Evitar listeners duplicados
-    const newInput = searchInput.cloneNode(true);
-    searchInput.parentNode.replaceChild(newInput, searchInput);
-    newInput.addEventListener('input', () => {
-        aplicarFiltros();
+    const inputs = ['catalog-search', 'header-search', 'store-search'];
+    inputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.oninput = (e) => {
+            const val = e.target.value;
+            // Sincronizar otros inputs si existen
+            inputs.forEach(otherId => {
+                const otherEl = document.getElementById(otherId);
+                if (otherEl && otherEl !== e.target) otherEl.value = val;
+            });
+            aplicarFiltros();
+        };
+        el.onkeydown = (e) => {
+            if (e.key === 'Enter') {
+                const storeSec = document.getElementById('tienda') || document.getElementById('productos');
+                if (storeSec) storeSec.scrollIntoView({ behavior: 'smooth' });
+            }
+        };
     });
 }
 

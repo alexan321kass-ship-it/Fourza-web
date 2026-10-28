@@ -26,6 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <link rel="stylesheet" href="css/style.css?v=10">
+    <link rel="stylesheet" href="css/cart.css?v=10">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="stylesheet" href="css/fun.css?v=10">
     <link rel="stylesheet" href="css/append.css?v=10">
@@ -48,15 +49,25 @@
 
                 <a href="#inicio">Inicio</a>
                 <a href="#nosotros">Nosotros</a>
-                <a href="catalogo/index.html">Productos</a>
+                <a href="catalogo/index.html">Catálogo</a>
                 <a href="#beneficios">Beneficios</a>
                 <a href="#marcas">Marcas</a>
                 <a href="#contacto">Contacto</a>
 
             </nav>
 
-            <div class="menu-toggle" aria-label="Abrir menú" role="button" tabindex="0">
-                <i class="fas fa-bars"></i>
+            <div class="navbar-right">
+
+                <!-- Cart Button -->
+                <button id="cart-toggle-btn" class="cart-toggle-btn" aria-label="Abrir carrito">
+                    <i class="fas fa-bag-shopping"></i>
+                    <span id="cart-badge" class="cart-badge" style="display:none;">0</span>
+                </button>
+
+                <div class="menu-toggle" aria-label="Abrir menú" role="button" tabindex="0">
+                    <i class="fas fa-bars"></i>
+                </div>
+
             </div>
 
         </div>
@@ -276,6 +287,7 @@
                     <h3>Alimentos</h3>
                     <p>Materias primas y alimentos seleccionados para distribuidores, supermercados, panaderías,
                         industrias y comercios.</p>
+                    <a href="catalogo/index.html" class="category-shop-link" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--secondary); font-weight: 700; text-decoration: none;">Comprar en Catálogo <i class="fas fa-arrow-right"></i></a>
                 </div>
 
                 <div class="category-card" data-aos="flip-left" data-aos-delay="200">
@@ -286,6 +298,7 @@
                     <h3>Materiales de Embalaje</h3>
                     <p>Bolsas, cajas, cintas, empaques y soluciones de embalaje diseñadas para proteger y optimizar el
                         transporte de productos.</p>
+                    <a href="catalogo/index.html" class="category-shop-link" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--secondary); font-weight: 700; text-decoration: none;">Comprar en Catálogo <i class="fas fa-arrow-right"></i></a>
                 </div>
 
                 <div class="category-card" data-aos="flip-left" data-aos-delay="300">
@@ -295,6 +308,7 @@
                     </div>
                     <h3>Insumos Industriales</h3>
                     <p>Productos e insumos clave para procesos de manufactura, producción y distribución eficiente.</p>
+                    <a href="catalogo/index.html" class="category-shop-link" style="display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; color: var(--secondary); font-weight: 700; text-decoration: none;">Comprar en Catálogo <i class="fas fa-arrow-right"></i></a>
                 </div>
 
             </div>
@@ -510,54 +524,6 @@
         </div>
     </div>
 
-    <!-- ================= MEDIO AMBIENTE ================= -->
-    <section class="eco-section" id="medio-ambiente">
-        <div class="eco-glow"></div>
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="section-title text-center" data-aos="fade-up">
-                <h2 class="neon-heading">Compromiso Sostenible</h2>
-                <p>En FOURZA no solo nos preocupamos por tu negocio, sino también por el impacto que dejamos en el planeta.</p>
-            </div>
-
-            <div class="eco-accordion" data-aos="fade-up" data-aos-delay="200">
-                <!-- Card 1 -->
-                <div class="eco-panel" style="background-image: url('img/sostenibilidad/vinipel_eco.jpg');">
-                    <div class="eco-panel-overlay"></div>
-                    <div class="eco-panel-content">
-                        <div class="eco-panel-icon"><i class="fas fa-box-open"></i></div>
-                        <div class="eco-panel-text">
-                            <h3>Empaques Ecológicos</h3>
-                            <p>Embalajes biodegradables para un futuro limpio.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="eco-panel" style="background-image: url('img/Carro.png');">
-                    <div class="eco-panel-overlay"></div>
-                    <div class="eco-panel-content">
-                        <div class="eco-panel-icon"><i class="fas fa-truck-moving"></i></div>
-                        <div class="eco-panel-text">
-                            <h3>Logística Eficiente</h3>
-                            <p>Rutas optimizadas para reducir la huella de carbono.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="eco-panel" style="background-image: url('img/sostenibilidad/gestion_residuos.jpg');">
-                    <div class="eco-panel-overlay"></div>
-                    <div class="eco-panel-content">
-                        <div class="eco-panel-icon"><i class="fas fa-recycle"></i></div>
-                        <div class="eco-panel-text">
-                            <h3>Gestión de Residuos</h3>
-                            <p>Un segundo ciclo de vida para nuestros materiales.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ================= TESTIMONIOS ================= -->
     <section class="testimonials-landing" id="testimonios">
@@ -649,34 +615,6 @@
     </section>
 
 
-    <!-- ================= CTA ================= -->
-    <section class="cta-premium" id="asesoria">
-        <div class="cta-animated-bg">
-            <div class="cta-blob cta-blob-1"></div>
-            <div class="cta-blob cta-blob-2"></div>
-            <div class="cta-blob cta-blob-3"></div>
-        </div>
-
-        <div class="container cta-container">
-            <div class="cta-glass-box" data-aos="zoom-in" data-aos-duration="800">
-                <div class="cta-icon-3d">
-                    <i class="fas fa-headset"></i>
-                </div>
-                <span class="neon-tag cta-tag">ASESORÍA COMERCIAL</span>
-                <h2 class="cta-title">Convierte tu lista de compra en un pedido claro y bien asesorado</h2>
-                <p class="cta-desc">
-                    Revisamos referencias, presentaciones y cantidades para ayudarte a elegir los productos más
-                    rentables y adecuados para tu operación.
-                </p>
-                <div class="cta-btn-wrapper">
-                    <a href="#contacto" class="btn-neon-glow">
-                        Hablar con un Asesor <i class="fas fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ================= CONTACTO ================= -->
 
     <section class="contact" id="contacto">
@@ -713,7 +651,7 @@
                         </div>
                         <div>
                             <h4>Correo Electrónico</h4>
-                            <p>ventas@fourza.com</p>
+                            <p>Comercializadorafourza@gmail.com</p>
                         </div>
                     </div>
 
@@ -798,7 +736,7 @@
                     <h3>Contacto</h3>
                     <p><i class="fas fa-phone"></i> 313 282 7956</p>
                     <p><i class="fas fa-phone"></i> 310 730 7227</p>
-                    <p><i class="fas fa-envelope"></i> ventas@fourza.com</p>
+                    <p><i class="fas fa-envelope"></i> Comercializadorafourza@gmail.com</p>
                 </div>
 
                 <!-- REDES -->
@@ -887,7 +825,108 @@
 
     </div>
 
+    <!-- ================= CART OVERLAY ================= -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <!-- ================= CART DRAWER ================= -->
+    <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-label="Carrito de cotización">
+
+        <div class="cart-drawer-header">
+            <div>
+                <h2 class="cart-drawer-title">
+                    <i class="fas fa-bag-shopping"></i> Mi Carrito
+                </h2>
+                <span id="cart-count-label" class="cart-count-label">0 productos</span>
+            </div>
+            <button id="cart-close-btn" class="cart-close-btn" aria-label="Cerrar carrito">
+                <i class="fas fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Empty State -->
+        <div id="cart-empty" class="cart-empty">
+            <i class="fas fa-bag-shopping"></i>
+            <p>Tu carrito está vacío</p>
+            <span>Agrega productos desde el catálogo</span>
+        </div>
+
+        <!-- Items List -->
+        <div id="cart-items-list" class="cart-items-list"></div>
+
+        <!-- Footer Actions -->
+        <div id="cart-footer" class="cart-footer" style="display:none;">
+
+            <button id="cart-clear-btn" class="cart-clear-btn">
+                <i class="fas fa-trash"></i> Vaciar carrito
+            </button>
+
+            <div class="cart-actions">
+                <button id="cart-pdf-btn" class="cart-action-btn cart-action-pdf"
+                    style="background: #334155; color: white;">
+                    <i class="fas fa-file-pdf"></i>
+                    Descargar PDF
+                </button>
+                <button id="cart-checkout-btn" class="cart-action-btn cart-action-checkout">
+                    <i class="fas fa-credit-card"></i>
+                    Finalizar Compra
+                </button>
+                <button id="cart-whatsapp-btn" class="cart-action-btn cart-action-wa">
+                    <i class="fab fa-whatsapp"></i>
+                    Pedir por WhatsApp
+                </button>
+            </div>
+
+        </div>
+
+    </aside>
+
+    <!-- ================= CHECKOUT MODAL ================= -->
+    <div id="checkoutModal" class="modal" role="dialog" aria-labelledby="checkout-title" aria-modal="true">
+        <div class="modal-content">
+            <span class="close-modal" id="close-checkout" aria-label="Cerrar">&times;</span>
+            <h2 id="checkout-title">Finalizar Compra</h2>
+            <p>Por favor, completa tus datos para generar tu pedido.</p>
+
+            <form id="checkout-form">
+                <input type="text" id="checkout-nombre" placeholder="Nombre Completo o Empresa" required>
+                <input type="email" id="checkout-email" placeholder="Correo Electrónico" required>
+                <input type="tel" id="checkout-telefono" placeholder="Teléfono / WhatsApp" required>
+                <input type="text" id="checkout-direccion" placeholder="Dirección de Envío" required>
+                <textarea id="checkout-desc" rows="2"
+                    placeholder="Comentarios adicionales para entrega (opcional)"></textarea>
+                <div class="payment-methods" aria-label="Metodo de pago">
+                    <span class="payment-methods-title">Metodo de pago</span>
+                    <label class="payment-option payment-option--nequi">
+                        <input type="radio" name="checkout-metodo" value="nequi" checked>
+                        <span class="payment-brand"><img src="img/nequi.png" alt="" aria-hidden="true"></span>
+                        <span class="payment-label"><strong>Nequi</strong><small>Transferencia inmediata</small></span>
+                        <span class="payment-status" aria-hidden="true"><i class="fas fa-check"></i></span>
+                    </label>
+                    <label class="payment-option payment-option--daviplata">
+                        <input type="radio" name="checkout-metodo" value="daviplata">
+                        <span class="payment-brand"><img src="img/daviplata.png" alt="" aria-hidden="true"></span>
+                        <span class="payment-label"><strong>Daviplata</strong><small>Transferencia inmediata</small></span>
+                        <span class="payment-status" aria-hidden="true"><i class="fas fa-check"></i></span>
+                    </label>
+                    <label class="payment-option payment-option--bancolombia">
+                        <input type="radio" name="checkout-metodo" value="bancolombia">
+                        <span class="payment-brand"><img src="img/bancolombia.png" alt="" aria-hidden="true"></span>
+                        <span class="payment-label"><strong>Bancolombia</strong><small>Transferencia bancaria</small></span>
+                        <span class="payment-status" aria-hidden="true"><i class="fas fa-check"></i></span>
+                    </label>
+                </div>
+                <div class="payment-instructions" id="payment-instructions">
+                    Transfiere al número <strong>322 819 4061</strong> (Nequi)
+                </div>
+                <button type="submit" id="btn-confirmar-pago">Confirmar y Pagar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="js/script.js?v=10"></script>
+    <script src="js/cart.js?v=10"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
         AOS.init({
