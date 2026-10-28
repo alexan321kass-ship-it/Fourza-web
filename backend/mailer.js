@@ -2,9 +2,9 @@ const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 const nodemailer = require('nodemailer');
 
-const SMTP_USER = process.env.SMTP_USER || 'alexan321kass@gmail.com';
-const SMTP_PASS = process.env.SMTP_PASS || 'ikjscqxceoajwuzc';
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'alexan321kass@gmail.com';
+const SMTP_USER = process.env.SMTP_USER || 'Comercializadorafourza@gmail.com';
+const SMTP_PASS = process.env.SMTP_PASS || 'mhkjwhgrrpjirpxu';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'Comercializadorafourza@gmail.com';
 const SMTP_FROM = `"FOURZA S.A.S" <${SMTP_USER}>`;
 
 // Crear transporter con Gmail
