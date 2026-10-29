@@ -7,13 +7,18 @@ const SMTP_PASS = process.env.SMTP_PASS || 'mhkjwhgrrpjirpxu';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'Comercializadorafourza@gmail.com';
 const SMTP_FROM = `"FOURZA S.A.S" <${SMTP_USER}>`;
 
-// Crear transporter con Gmail
+// Crear transporter con Gmail (SMTP explícito puerto 587 + TLS)
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true para 465, false para 587
     auth: {
         user: SMTP_USER,
         pass: SMTP_PASS,
     },
+    tls: {
+        rejectUnauthorized: false
+    }
 });
 
 transporter.verify((err, success) => {
